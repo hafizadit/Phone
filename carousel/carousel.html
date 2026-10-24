@@ -53,7 +53,8 @@
   .lead { font-size: 33px; line-height: 1.4; margin-top: 28px; color: var(--paper); }
   .lead b { color: var(--lime); }
   p.small { font-size: 22px; line-height: 1.4; color: var(--mist); }
-  svg text { font-family: var(--body); fill: var(--paper); }
+  svg text { font-family: var(--body); }
+  svg text:not([fill]) { fill: var(--paper); }
   .callout { font: 700 34px/1.3 var(--body); color: var(--paper); border-left: 6px solid var(--lime);
              padding: 4px 0 4px 26px; }
 
@@ -125,56 +126,58 @@
   <h2>Di atas kertas, <span class="hl">gaji kita menang.</span></h2>
   <p class="lead">Sejak 2000, gaji rata-rata per jam di AS naik <b>131%</b>, sementara harga barang secara umum naik <b>93%</b>. Seharusnya hidup terasa lebih longgar. Tapi lihat rinciannya:</p>
 
-  <!-- zero at x=226, 2.26 px per percentage point -->
-  <svg width="904" height="590" viewBox="0 0 904 590" style="margin-top:34px">
-    <text x="522" y="22" text-anchor="middle" font-size="20" font-weight="700" fill="#eef6f0" letter-spacing="1.5">GARIS GAJI</text>
-    <g stroke-width="2">
-      <line x1="522" y1="32" x2="522" y2="44" stroke="#eef6f0" opacity=".8"/>
-      <line x1="226" y1="32" x2="226" y2="44" stroke="rgba(238,246,240,.45)"/>
-    </g>
-    <text x="226" y="22" text-anchor="middle" font-size="20" fill="rgba(238,246,240,.6)">0</text>
+  <!-- slope chart: only 2000 and 2025 endpoints are real data; y = 20 + (300 - v) * 1.35 -->
+  <svg width="904" height="610" viewBox="0 0 904 610" style="margin-top:26px">
+    <defs>
+      <linearGradient id="wedge" x1="1" y1="0" x2="0" y2="0">
+        <stop offset="0" stop-color="#18ab60" stop-opacity=".5"/>
+        <stop offset="1" stop-color="#18ab60" stop-opacity=".05"/>
+      </linearGradient>
+    </defs>
+    <rect x="110" y="425.0" width="570" height="135.0" fill="rgba(4,23,36,.35)"/>
+    <line x1="110" y1="20.0" x2="680" y2="20.0" stroke="rgba(238,246,240,.12)" stroke-width="1.5"/><text x="96" y="26.0" text-anchor="end" font-size="19" fill="rgba(238,246,240,.6)">+300%</text>
+    <line x1="110" y1="155.0" x2="680" y2="155.0" stroke="rgba(238,246,240,.12)" stroke-width="1.5"/><text x="96" y="161.0" text-anchor="end" font-size="19" fill="rgba(238,246,240,.6)">+200%</text>
+    <line x1="110" y1="290.0" x2="680" y2="290.0" stroke="rgba(238,246,240,.12)" stroke-width="1.5"/><text x="96" y="296.0" text-anchor="end" font-size="19" fill="rgba(238,246,240,.6)">+100%</text>
+    <line x1="110" y1="425.0" x2="680" y2="425.0" stroke="rgba(238,246,240,.45)" stroke-width="2"/><text x="96" y="431.0" text-anchor="end" font-size="19" fill="rgba(238,246,240,.6)">0%</text>
+    <line x1="110" y1="560.0" x2="680" y2="560.0" stroke="rgba(238,246,240,.12)" stroke-width="1.5"/><text x="96" y="566.0" text-anchor="end" font-size="19" fill="rgba(238,246,240,.6)">−100%</text>
+    
+    <text x="126" y="544.0" font-size="20" fill="rgba(238,246,240,.6)">↓ Lebih murah dari tahun 2000</text>
 
-    <g transform="translate(0,52)">
-      <line x1="226" y1="40" x2="226" y2="90" stroke="rgba(238,246,240,.45)" stroke-width="2"/>
-      <line x1="522" y1="40" x2="522" y2="90" stroke="#eef6f0" stroke-width="2" stroke-dasharray="4 5" opacity=".85"/>
-      <text x="0" y="30" font-size="29" font-weight="700">Layanan rumah sakit</text>
-      <text x="904" y="30" text-anchor="end" font-size="34" font-weight="800" fill="#18ab60" style="font-family:'Archivo';font-stretch:92%">+281%</text>
-      <rect x="226" y="46" width="635" height="38" rx="6" fill="#18ab60"/>
+    <!-- disparity: gap between hospital and wages -->
+    <polygon points="110,425.0 680,45.7 680,248.2" fill="url(#wedge)"/>
+    <line x1="680" y1="45.7" x2="680" y2="248.2" stroke="#18ab60" stroke-width="3" stroke-dasharray="2 6" stroke-linecap="round"/>
+    <text x="130" y="74.0" font-size="64" font-weight="800" fill="#18ab60" style="font-family:'Archivo';font-stretch:90%">150 poin</text>
+    <text x="132" y="108.0" font-size="22" fill="#eef6f0">jarak antara biaya rumah sakit</text>
+    <text x="132" y="136.0" font-size="22" fill="#eef6f0">dan kenaikan gaji</text>
+
+    <g stroke-linecap="round" fill="none">
+      <line x1="110" y1="425.0" x2="611.6" y2="556.0" stroke="#eef6f0" stroke-width="4" stroke-dasharray="2 9" opacity=".85"/>
+      <line x1="110" y1="425.0" x2="680" y2="299.5" stroke="#138651" stroke-width="5"/>
+      <line x1="110" y1="425.0" x2="680" y2="159.1" stroke="#18ab60" stroke-width="5" opacity=".75"/>
+      <line x1="110" y1="425.0" x2="680" y2="248.2" stroke="#eef6f0" stroke-width="7"/>
+      <line x1="110" y1="425.0" x2="680" y2="45.7" stroke="#18ab60" stroke-width="8"/>
     </g>
-    <g transform="translate(0,156)">
-      <line x1="226" y1="40" x2="226" y2="90" stroke="rgba(238,246,240,.45)" stroke-width="2"/>
-      <line x1="522" y1="40" x2="522" y2="90" stroke="#eef6f0" stroke-width="2" stroke-dasharray="4 5" opacity=".85"/>
-      <text x="0" y="30" font-size="29" font-weight="700">Biaya kuliah</text>
-      <text x="904" y="30" text-anchor="end" font-size="34" font-weight="800" fill="#18ab60" style="font-family:'Archivo';font-stretch:92%">+197%</text>
-      <rect x="226" y="46" width="445" height="38" rx="6" fill="#18ab60"/>
-    </g>
-    <g transform="translate(0,260)">
-      <line x1="226" y1="40" x2="226" y2="90" stroke="rgba(238,246,240,.45)" stroke-width="2"/>
-      <line x1="522" y1="40" x2="522" y2="90" stroke="#eef6f0" stroke-width="2" stroke-dasharray="4 5" opacity=".85"/>
-      <text x="0" y="30" font-size="29" font-weight="700">Gaji rata-rata per jam</text>
-      <text x="904" y="30" text-anchor="end" font-size="34" font-weight="800" style="font-family:'Archivo';font-stretch:92%">+131%</text>
-      <rect x="226" y="46" width="296" height="38" rx="6" fill="#eef6f0"/>
-    </g>
-    <g transform="translate(0,364)">
-      <line x1="226" y1="40" x2="226" y2="90" stroke="rgba(238,246,240,.45)" stroke-width="2"/>
-      <line x1="522" y1="40" x2="522" y2="90" stroke="#eef6f0" stroke-width="2" stroke-dasharray="4 5" opacity=".85"/>
-      <text x="0" y="30" font-size="29" font-weight="700">Harga umum (inflasi)</text>
-      <text x="904" y="30" text-anchor="end" font-size="34" font-weight="800" fill="rgba(238,246,240,.75)" style="font-family:'Archivo';font-stretch:92%">+93%</text>
-      <rect x="226" y="46" width="210" height="38" rx="6" fill="#138651"/>
-    </g>
-    <g transform="translate(0,468)">
-      <line x1="226" y1="40" x2="226" y2="90" stroke="rgba(238,246,240,.45)" stroke-width="2"/>
-      <line x1="522" y1="40" x2="522" y2="90" stroke="#eef6f0" stroke-width="2" stroke-dasharray="4 5" opacity=".85"/>
-      <text x="0" y="30" font-size="29" font-weight="700">TV <tspan font-weight="400" font-size="22" fill="rgba(238,246,240,.66)">(2000–2022)</tspan></text>
-      <text x="904" y="30" text-anchor="end" font-size="34" font-weight="800" fill="rgba(238,246,240,.75)" style="font-family:'Archivo';font-stretch:92%">−97%</text>
-      <rect x="7" y="46" width="219" height="38" rx="6" fill="none" stroke="#eef6f0" stroke-width="2.5"/>
-    </g>
+    <circle cx="110" cy="425.0" r="8" fill="#eef6f0"/>
+    <circle cx="680" cy="45.7" r="9" fill="#18ab60"/>
+    <circle cx="680" cy="159.1" r="7" fill="#18ab60"/>
+    <circle cx="680" cy="248.2" r="8" fill="#eef6f0"/>
+    <circle cx="680" cy="299.5" r="7" fill="#138651"/>
+    <circle cx="611.6" cy="556.0" r="7" fill="none" stroke="#eef6f0" stroke-width="3"/>
+
+    <text x="722" y="53.7" font-size="34" font-weight="800" fill="#18ab60" style="font-family:'Archivo';font-stretch:92%">+281%</text><text x="722" y="76.7" font-size="20" fill="rgba(238,246,240,.8)">Rumah sakit</text>
+    <text x="722" y="167.1" font-size="34" font-weight="800" fill="#18ab60" style="font-family:'Archivo';font-stretch:92%">+197%</text><text x="722" y="190.1" font-size="20" fill="rgba(238,246,240,.8)">Kuliah</text>
+    <text x="722" y="250.1" font-size="34" font-weight="800" fill="#eef6f0" style="font-family:'Archivo';font-stretch:92%">+131%</text><text x="722" y="273.1" font-size="20" fill="rgba(238,246,240,.8)">Gaji per jam</text>
+    <text x="722" y="313.5" font-size="34" font-weight="800" fill="rgba(238,246,240,.75)" style="font-family:'Archivo';font-stretch:92%">+93%</text><text x="722" y="336.5" font-size="20" fill="rgba(238,246,240,.8)">Inflasi umum</text>
+    <text x="722" y="534.0" font-size="34" font-weight="800" fill="rgba(238,246,240,.75)" style="font-family:'Archivo';font-stretch:92%">−97%</text><text x="722" y="557.0" font-size="20" fill="rgba(238,246,240,.8)">TV (s/d 2022)</text>
+    
+    <text x="110" y="600.0" text-anchor="middle" font-size="21" font-weight="700">2000</text>
+    <text x="680" y="600.0" text-anchor="middle" font-size="21" font-weight="700">2025</text>
   </svg>
 
-  <p class="callout" style="margin-top:34px">Barang buatan mesin makin murah. Yang butuh tangan dan waktu manusia makin mahal.</p>
+  <p class="callout" style="margin-top:22px;font-size:31px">Barang buatan mesin makin murah. Yang butuh tangan dan waktu manusia makin mahal.</p>
 
   <div class="bottom">
-    <span>Perubahan harga di AS, 2000–2025. Sumber: BLS via Mark J. Perry (AEI).</span>
+    <span>Perubahan harga di AS. Garis hanya menghubungkan titik 2000 dan 2025, bukan data tahunan. Sumber: BLS via Mark J. Perry (AEI).</span>
     <span class="swipe">Geser →</span>
   </div>
 </section>
