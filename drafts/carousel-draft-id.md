@@ -1,7 +1,7 @@
 # Draft Carousel Instagram — "Kenapa Hidup Kelas Menengah Makin Mahal?"
 
 Format: 6 slide (5 isi + 1 sumber). Semua data dari Amerika Serikat.
-Versi 2: slide 3 dibuat netral, narasi lebih manusiawi, fokus ke konsep ekonomi.
+Versi 3: slide 3 jadi penjelasan "inflasi itu rata-rata" + jembatan ke Baumol; slide 5 diganti hipotesis bunga KPR (terverifikasi sebagian).
 
 ---
 
@@ -36,18 +36,17 @@ Barang buatan mesin makin murah. Yang butuh tangan dan waktu manusia makin mahal
 
 ---
 
-## Slide 3 — Negeri atau swasta?
+## Slide 3 — Inflasi itu rata-rata (jembatan ke Baumol)
 
-**Judul:**
-Salah pengelolanya? Ternyata dua-duanya kena.
+**Judul:** Inflasi itu rata-rata. Hidup kita tidak.
 
-**Isi:**
-- **Kampus negeri dan swasta naik hampir sama cepat.** Selama 1987–2025, biaya kuliah naik 2,3× laju inflasi di kampus negeri dan 2,4× di kampus swasta nirlaba.
-- **Sekolah negeri juga makin mahal.** Salah satu sebabnya, satu guru kini mengurus lebih sedikit murid: rasionya turun dari 20,5 (1970) ke 15,4 (1990).
-- **Pola ini pertama kali ditemukan di dunia seni pertunjukan**, seperti orkestra dan teater, yang tidak ada urusannya dengan pemerintah.
+**Isi:** Angka inflasi +93% adalah rata-rata dari ratusan barang dan jasa. Barang yang makin murah ikut menarik rata-rata itu ke bawah.
 
-**Penutup:**
-Mungkin pertanyaannya bukan siapa yang mengelola. Ada sesuatu di sifat pekerjaannya.
+**Grafik (strip plot, −100% s/d +300%):** TV −97%, mainan −72%, software −70,5%, layanan ponsel −41% (2000–2022) · rata-rata inflasi +93% · gaji +131% · kuliah +197% · rumah sakit +281% (2000–2025).
+
+**Paragraf:** Masalahnya, TV murah tidak bisa membayar biaya rumah sakit. Yang makin murah adalah barang yang bisa ditunda. Yang makin mahal justru yang tidak bisa kita hindari: berobat dan sekolah.
+
+**Jembatan:** Kenapa yang dibuat mesin makin murah, sementara yang dikerjakan manusia makin mahal? Tahun 1966, dua ekonom menemukan jawabannya.
 
 ---
 
@@ -68,33 +67,31 @@ Sebagian "kemandekan" ini soal cara mengukur. Studi rumah sakit AS 2002–2011: 
 
 ---
 
-## Slide 5 — Dua konsep lain + penutup
+## Slide 5 — Konsep 2: Bunga pinjaman tidak masuk angka inflasi
 
-**Judul:**
-Dua hal lain yang ikut mendorong harga
+**Grafik:** Puncak inflasi AS 2022: resmi ~9% vs dengan biaya pinjaman ~18%.
 
 **Isi:**
-**1. Revenue Theory of Cost (Howard Bowen, 1980)**
-Kampus berlomba mengejar mutu dan gengsi, dan untuk itu tidak ada kata "cukup". Jadi mereka mengumpulkan dana sebanyak mungkin, lalu menghabiskan semuanya. Biaya mengikuti pemasukan, bukan kebutuhan.
+Sejak 1983, inflasi resmi AS tidak lagi menghitung bunga KPR. Biaya rumah diukur dari perkiraan berapa sewa rumah itu kalau disewakan.
 
-**2. Yang bayar orang lain (RAND Health Insurance Experiment)**
-Dalam eksperimen acak tahun 1970–80-an, keluarga yang menanggung sendiri sebagian besar biaya berobat menghabiskan 31% lebih sedikit daripada yang berobat gratis. Kesehatan rata-rata mereka hampir sama. Tapi mereka juga mengurangi perawatan yang sebenarnya penting, dan warga miskin yang sakit lebih dirugikan.
+Larry Summers dan rekan (2024) menghitung ulang dengan memasukkan biaya pinjaman. Hasilnya, puncak inflasi 2022 sekitar 18%, dua kali angka resmi. Cicilan bunga KPR baru untuk rumah rata-rata naik hampir 3× sejak akhir 2019.
 
-**Penutup:**
-Hidup kelas menengah terasa makin mahal karena yang paling kita butuhkan, sehat dan sekolah, adalah jenis barang yang paling susah dibuat murah.
+**Catatan:** Tapi ini masih diperdebatkan. BLS menganggap rumah sebagai aset, bukan barang konsumsi. Ekonom seperti J.W. Mason menilai hitungan Summers berlebihan. Efek ini juga paling terasa saat suku bunga naik, seperti 2022–2024.
+
+**Penutup:** Yang paling kita butuhkan paling susah dibuat murah. Sebagian biayanya bahkan tidak tercatat di angka inflasi.
 
 ---
 
 ## Slide 6 — Sumber
 
-1. Mark J. Perry (AEI), "Chart of the Century", pembaruan 2000–2025 (via HumanProgress.org, Gale Pooley, 2026); data TV dari edisi Juli 2022. Data dasar: BLS.
-2. Educational Policy Institute, analisis data College Board 1987–2025.
-3. Eric Hanushek, dikutip dalam *Christian Science Monitor* (1996).
-4. Baumol & Bowen (1966), *Performing Arts: The Economic Dilemma*.
-5. Baumol (1967), "Macroeconomics of Unbalanced Growth", *American Economic Review*; Baumol (2012), *The Cost Disease*, Yale University Press.
-6. Romley, Goldman & Sood (2015), *Health Affairs* 34(3).
-7. Howard R. Bowen (1980), *The Costs of Higher Education*.
-8. Manning dkk. (1987), "Health Insurance and the Demand for Medical Care", *American Economic Review*; RAND Health Insurance Experiment.
+1. Mark J. Perry (AEI), "Chart of the Century", 2000–2025 (via HumanProgress.org); edisi Juli 2022 untuk TV, mainan, software, ponsel. Data dasar: BLS.
+2. Baumol & Bowen (1966), *Performing Arts: The Economic Dilemma*.
+3. Baumol (1967), *AER*; Baumol (2012), *The Cost Disease*.
+4. Romley, Goldman & Sood (2015), *Health Affairs* 34(3).
+5. Bolhuis, Cramer, Schulz & Summers (2024), NBER Working Paper 32163.
+6. Summers (2024), *Finance & Development*, IMF.
+7. BLS, "Owners' equivalent rent and the CPI: 30 years and counting".
+8. J.W. Mason (2025), *Barron's*.
 
 ---
 
@@ -113,3 +110,7 @@ Hidup kelas menengah terasa makin mahal karena yang paling kita butuhkan, sehat 
 | RAND: −31% belanja | Paket "catastrophic" vs gratis (Manning dkk. 1987) |
 | RAND: kesehatan rata-rata hampir sama, kecuali kelompok miskin yang sakit | Ringkasan RAND (tekanan darah, penglihatan) |
 | Dihapus dari versi 1 | Perbandingan belanja kesehatan antarnegara, biaya administrasi RS, Niskanen, Arrow: dihapus supaya slide 3 netral dan fokus ke konsep |
+| Mainan −72%, software −70,5%, ponsel −41% | AEI edisi Juli 2022 (2000–2022) |
+| CPI tanpa bunga KPR sejak 1983 | Terverifikasi (BLS, owners' equivalent rent) |
+| Inflasi ~18% vs ~9% (puncak 2022) | Summers dkk., makalah kerja NBER (belum ditelaah sejawat); 18% dikutip luas, belum dicek ke grafik asli |
+| Cicilan bunga KPR baru naik hampir 3× sejak akhir 2019 | Summers, IMF F&D (Des 2024) |

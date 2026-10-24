@@ -71,7 +71,7 @@
   /* slide 5 */
   .concept { display: grid; grid-template-columns: 250px 1fr; gap: 34px; align-items: center; margin-top: 30px; }
   .concept h3 { font: 700 31px/1.2 var(--body); color: var(--lime); margin-bottom: 10px; }
-  .concept p { font-size: 28px; line-height: 1.4; }
+  .concept p { font-size: 29px; line-height: 1.42; }
   .end { position: absolute; left: 0; right: 0; bottom: 0; height: 250px; background: var(--lime);
          padding: 44px 88px 0; color: var(--ink); }
   .end p { font: 800 40px/1.18 var(--head); font-stretch: 92%; }
@@ -93,24 +93,23 @@
 
   <h1>Di Amerika, harga TV tinggal secuil dibanding tahun 2000.<br><span class="hl">Biaya rumah sakit? Hampir empat kali lipat.</span></h1>
 
-  <svg width="904" height="430" viewBox="0 0 904 430" style="margin-top:40px">
-    <line x1="0" y1="376" x2="904" y2="376" stroke="rgba(238,246,240,.35)" stroke-width="2"/>
-    <line x1="0" y1="282" x2="904" y2="282" stroke="rgba(238,246,240,.4)" stroke-width="2" stroke-dasharray="6 8"/>
-    <text x="0" y="268" font-size="21" fill="rgba(238,246,240,.7)" letter-spacing="1.5">HARGA TAHUN 2000</text>
+  <svg width="904" height="470" viewBox="0 0 904 470" style="margin-top:36px">
+    <rect x="190" y="15" width="250" height="315" rx="10" fill="#18ab60"/>
+    <text x="315" y="89" text-anchor="middle" font-size="60" font-weight="800" fill="#041724" style="font-family:'Archivo';font-stretch:92%">+281%</text>
+    <text x="315" y="125" text-anchor="middle" font-size="23" fill="#041724">≈ 3,8× lipat</text>
+    <text x="315" y="374" text-anchor="middle" font-size="28" font-weight="700">Layanan rumah sakit</text>
 
-    <rect x="170" y="282" width="230" height="94" rx="10" fill="none" stroke="rgba(238,246,240,.45)" stroke-width="2.5" stroke-dasharray="8 7"/>
-    <rect x="170" y="370" width="230" height="6" rx="3" fill="#eef6f0"/>
-    <text x="285" y="344" text-anchor="middle" font-size="46" font-weight="700" style="font-family:'Archivo';font-stretch:92%">−97%</text>
-    <text x="285" y="416" text-anchor="middle" font-size="28" font-weight="700">TV</text>
+    <rect x="560" y="330" width="250" height="109" rx="10" fill="rgba(238,246,240,.12)" stroke="#eef6f0" stroke-width="2.5"/>
+    <text x="685" y="400" text-anchor="middle" font-size="50" font-weight="800" style="font-family:'Archivo';font-stretch:92%">−97%</text>
+    <text x="685" y="308" text-anchor="middle" font-size="28" font-weight="700">TV</text>
 
-    <rect x="540" y="18" width="230" height="358" rx="10" fill="#18ab60"/>
-    <rect x="540" y="282" width="230" height="94" rx="10" fill="none" stroke="#041724" stroke-opacity=".45" stroke-width="2.5" stroke-dasharray="8 7"/>
-    <text x="655" y="92" text-anchor="middle" font-size="56" font-weight="800" fill="#041724" style="font-family:'Archivo';font-stretch:92%">+281%</text>
-    <text x="655" y="126" text-anchor="middle" font-size="22" fill="#041724">≈ 3,8× lipat</text>
-    <text x="655" y="416" text-anchor="middle" font-size="28" font-weight="700">Layanan rumah sakit</text>
+    <line x1="0" y1="330" x2="904" y2="330" stroke="#eef6f0" stroke-width="3"/>
+    <text x="0" y="316" font-size="21" font-weight="700" letter-spacing="1.5">0%</text>
+    <text x="0" y="360" font-size="18" fill="rgba(238,246,240,.7)">= harga</text>
+    <text x="0" y="382" font-size="18" fill="rgba(238,246,240,.7)">tahun 2000</text>
   </svg>
 
-  <p class="lead" style="margin-top:26px;font-size:31px">Kenapa hal-hal yang paling kita butuhkan justru yang paling cepat naik harganya?</p>
+  <p class="lead" style="margin-top:20px;font-size:31px">Kenapa hal-hal yang paling kita butuhkan justru yang paling cepat naik harganya?</p>
 
   <div class="bottom">
     <span>Data Amerika Serikat. Rumah sakit 2000–2025, TV 2000–2022.<br>Sumber: BLS via Mark J. Perry (AEI).</span>
@@ -182,63 +181,58 @@
   </div>
 </section>
 
-<!-- ───────────── 03 PUBLIC OR PRIVATE ───────────── -->
+<!-- ───────────── 03 INFLATION IS AN AVERAGE ───────────── -->
 <section class="slide dark" id="s3">
-  <div class="top"><span>Negeri atau swasta?</span><span class="num">03 / 06</span></div>
+  <div class="top"><span>Kenapa terasa mahal?</span><span class="num">03 / 06</span></div>
   <div class="rule"></div>
 
-  <h2 style="margin-top:44px">Salah pengelolanya?<br><span class="hl">Ternyata dua-duanya kena.</span></h2>
+  <h2 style="margin-top:44px">Inflasi itu rata-rata.<br><span class="hl">Hidup kita tidak.</span></h2>
+  <p class="lead" style="font-size:30px;margin-top:22px">Angka inflasi <b>+93%</b> adalah rata-rata dari ratusan barang dan jasa. Barang yang makin murah ikut menarik rata-rata itu ke bawah.</p>
 
-  <div class="cards">
-    <div class="card">
-      <svg width="320" height="176" viewBox="0 0 320 176">
-        <text x="0" y="20" font-size="21" font-weight="700">Inflasi</text>
-        <rect x="0" y="30" width="56" height="26" rx="5" fill="none" stroke="rgba(238,246,240,.55)" stroke-width="2" stroke-dasharray="5 5"/>
-        <text x="68" y="51" font-size="24" font-weight="800" style="font-family:'Archivo'" fill="rgba(238,246,240,.7)">1×</text>
-        <text x="0" y="82" font-size="21" font-weight="700">Negeri</text>
-        <rect x="0" y="92" width="129" height="26" rx="5" fill="#138651"/>
-        <text x="141" y="113" font-size="24" font-weight="800" style="font-family:'Archivo'">2,3×</text>
-        <text x="0" y="144" font-size="21" font-weight="700">Swasta nirlaba</text>
-        <rect x="0" y="150" width="134" height="26" rx="5" fill="#18ab60"/>
-        <text x="146" y="171" font-size="24" font-weight="800" style="font-family:'Archivo'" fill="#18ab60">2,4×</text>
-      </svg>
-      <div>
-        <h3>Kampus negeri &amp; swasta</h3>
-        <p>Selama 1987–2025, biaya kuliah naik 2,3× laju inflasi di kampus negeri dan 2,4× di kampus swasta nirlaba. Hampir sama.</p>
-      </div>
-    </div>
+  <!-- strip plot: x = 40 + (v + 100) * 2.06 -->
+  <svg width="904" height="440" viewBox="0 0 904 440" style="margin-top:22px">
+    <rect x="40" y="246" width="206" height="8" rx="4" fill="rgba(238,246,240,.35)"/>
+    <rect x="246" y="246" width="618" height="8" rx="4" fill="#0e6142"/>
+    <rect x="246" y="246" width="192" height="8" rx="4" fill="#138651"/>
+    <line x1="246" y1="236" x2="246" y2="264" stroke="#eef6f0" stroke-width="3"/>
+    <text x="246" y="290" text-anchor="middle" font-size="19" font-weight="700" fill="rgba(238,246,240,.75)">0%</text>
+    <text x="864" y="18" text-anchor="end" font-size="18" font-weight="700" letter-spacing="2" fill="#18ab60">DIKERJAKAN MANUSIA ↑</text>
+    <text x="40" y="440" font-size="18" font-weight="700" letter-spacing="2" fill="rgba(238,246,240,.7)">DIBUAT MESIN ↓</text>
 
-    <div class="card">
-      <div class="big">20,5<span class="hl"> → </span>15,4<small>murid per guru, 1970 → 1990</small></div>
-      <div>
-        <h3>Sekolah negeri</h3>
-        <p>Ikut makin mahal. Salah satu sebabnya, satu guru kini mengurus lebih sedikit murid, jadi butuh lebih banyak guru.</p>
-      </div>
-    </div>
+    <line x1="438" y1="220" x2="438" y2="286" stroke="#18ab60" stroke-width="3"/>
+    <circle cx="438" cy="250" r="18" fill="#041724" stroke="#18ab60" stroke-width="4"/>
+    <text x="430" y="320" font-size="24" font-weight="700" fill="#18ab60">+93% rata-rata inflasi</text>
+    <text x="430" y="350" font-size="21" fill="rgba(238,246,240,.8)">← ditarik turun oleh barang murah</text>
+    <line x1="46" y1="250" x2="46" y2="378" stroke="#eef6f0" stroke-opacity=".5" stroke-width="2"/>
+    <text x="58" y="404" text-anchor="start" font-size="23"><tspan font-weight="700" fill="#eef6f0">−97%</tspan> <tspan fill="rgba(238,246,240,.85)">TV</tspan></text>
+    <line x1="98" y1="250" x2="98" y2="336" stroke="#eef6f0" stroke-opacity=".5" stroke-width="2"/>
+    <text x="110" y="362" text-anchor="start" font-size="23"><tspan font-weight="700" fill="#eef6f0">−72%</tspan> <tspan fill="rgba(238,246,240,.85)">Mainan</tspan></text>
+    <line x1="101" y1="250" x2="101" y2="294" stroke="#eef6f0" stroke-opacity=".5" stroke-width="2"/>
+    <text x="113" y="320" text-anchor="start" font-size="23"><tspan font-weight="700" fill="#eef6f0">−70,5%</tspan> <tspan fill="rgba(238,246,240,.85)">Software</tspan></text>
+    <line x1="162" y1="250" x2="162" y2="118" stroke="#eef6f0" stroke-opacity=".5" stroke-width="2"/>
+    <text x="174" y="110" text-anchor="start" font-size="23"><tspan font-weight="700" fill="#eef6f0">−41%</tspan> <tspan fill="rgba(238,246,240,.85)">Layanan ponsel</tspan></text>
+    <line x1="516" y1="250" x2="516" y2="178" stroke="#eef6f0" stroke-opacity=".5" stroke-width="2"/>
+    <text x="504" y="170" text-anchor="end" font-size="23"><tspan font-weight="700" fill="#eef6f0">+131%</tspan> <tspan fill="rgba(238,246,240,.85)">Gaji per jam</tspan></text>
+    <line x1="652" y1="250" x2="652" y2="118" stroke="#18ab60" stroke-opacity=".5" stroke-width="2"/>
+    <text x="664" y="110" text-anchor="start" font-size="23"><tspan font-weight="700" fill="#18ab60">+197%</tspan> <tspan fill="rgba(238,246,240,.85)">Kuliah</tspan></text>
+    <line x1="825" y1="250" x2="825" y2="58" stroke="#18ab60" stroke-opacity=".5" stroke-width="2"/>
+    <text x="835" y="50" text-anchor="end" font-size="23"><tspan font-weight="700" fill="#18ab60">+281%</tspan> <tspan fill="rgba(238,246,240,.85)">Rumah sakit</tspan></text>
+    <circle cx="46" cy="250" r="10" fill="#041724" stroke="#eef6f0" stroke-width="3"/>
+    <circle cx="98" cy="250" r="10" fill="#041724" stroke="#eef6f0" stroke-width="3"/>
+    <circle cx="101" cy="250" r="10" fill="#041724" stroke="#eef6f0" stroke-width="3"/>
+    <circle cx="162" cy="250" r="10" fill="#041724" stroke="#eef6f0" stroke-width="3"/>
+    <circle cx="516" cy="250" r="11" fill="#eef6f0"/>
+    <circle cx="652" cy="250" r="13" fill="#18ab60"/>
+    <circle cx="825" cy="250" r="13" fill="#18ab60"/>
+    
+  </svg>
 
-    <div class="card">
-      <svg width="300" height="130" viewBox="0 0 300 150" aria-label="Ikon panggung">
-        <path d="M10 20 Q150 70 290 20 L290 34 Q150 84 10 34 Z" fill="#18ab60"/>
-        <path d="M10 20 L10 140 L58 140 Q40 80 52 36 Z" fill="#138651"/>
-        <path d="M290 20 L290 140 L242 140 Q260 80 248 36 Z" fill="#138651"/>
-        <g fill="#eef6f0">
-          <circle cx="112" cy="104" r="11"/><rect x="104" y="117" width="16" height="23" rx="5"/>
-          <circle cx="150" cy="98" r="11"/><rect x="142" y="111" width="16" height="29" rx="5"/>
-          <circle cx="188" cy="104" r="11"/><rect x="180" y="117" width="16" height="23" rx="5"/>
-        </g>
-        <line x1="60" y1="141" x2="240" y2="141" stroke="#eef6f0" stroke-width="3"/>
-      </svg>
-      <div>
-        <h3>Seni pertunjukan</h3>
-        <p>Pola ini pertama kali ditemukan di orkestra dan teater, yang tidak ada urusannya dengan pemerintah.</p>
-      </div>
-    </div>
-  </div>
+  <p style="font-size:27px;line-height:1.4;margin-top:16px">Masalahnya, TV murah tidak bisa membayar biaya rumah sakit. Yang makin murah adalah barang yang bisa ditunda. Yang makin mahal justru yang tidak bisa kita hindari: berobat dan sekolah.</p>
 
-  <p class="callout" style="margin-top:28px;font-size:31px">Mungkin pertanyaannya bukan siapa yang mengelola. Ada sesuatu di sifat pekerjaannya.</p>
+  <p class="callout" style="margin-top:24px;font-size:30px">Kenapa yang dibuat mesin makin murah, sementara yang dikerjakan manusia makin mahal? Tahun 1966, dua ekonom menemukan jawabannya.</p>
 
   <div class="bottom">
-    <span>Sumber: Educational Policy Institute (data College Board); Hanushek (1996).</span>
+    <span>Data AS. RS, kuliah, gaji, inflasi: 2000–2025. TV, mainan, software, ponsel: 2000–2022. Sumber: BLS via Mark J. Perry (AEI).</span>
     <span class="swipe">Geser →</span>
   </div>
 </section>
@@ -302,50 +296,36 @@
   </div>
 </section>
 
-<!-- ───────────── 05 BOWEN + RAND ───────────── -->
+<!-- ───────────── 05 COST OF MONEY ───────────── -->
 <section class="slide dark" id="s5">
-  <div class="top"><span>Konsep 2 &amp; 3</span><span class="num">05 / 06</span></div>
+  <div class="top"><span>Konsep 2</span><span class="num">05 / 06</span></div>
   <div class="rule"></div>
 
-  <h2 style="margin-top:44px">Dua hal lain yang <span class="hl">ikut mendorong harga</span></h2>
+  <h2 style="margin-top:44px">Bunga pinjaman <span class="hl">tidak masuk</span> angka inflasi</h2>
 
-  <div class="concept" style="margin-top:40px">
-    <svg width="250" height="250" viewBox="-14 0 278 250">
-      <defs><marker id="ar" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#18ab60"/></marker></defs>
-      <circle cx="125" cy="125" r="92" fill="none" stroke="rgba(24,171,96,.25)" stroke-width="16"/>
-      <path d="M 160 40 A 92 92 0 0 1 214 150" fill="none" stroke="#18ab60" stroke-width="5" marker-end="url(#ar)"/>
-      <path d="M 190 196 A 92 92 0 0 1 60 196" fill="none" stroke="#18ab60" stroke-width="5" marker-end="url(#ar)"/>
-      <path d="M 36 150 A 92 92 0 0 1 90 40" fill="none" stroke="#18ab60" stroke-width="5" marker-end="url(#ar)"/>
-      <g font-size="19" font-weight="700" text-anchor="middle">
-        <text x="125" y="26">Kumpulkan dana</text>
-        <text x="214" y="232">Habiskan</text>
-        <text x="44" y="232">Kejar gengsi</text>
-      </g>
-      <text x="125" y="122" text-anchor="middle" font-size="36" font-weight="800" fill="#18ab60" style="font-family:'Archivo'">Rp</text>
-      <text x="125" y="150" text-anchor="middle" font-size="19" fill="rgba(238,246,240,.7)">terus berputar</text>
+  <div class="concept" style="margin-top:40px;grid-template-columns:300px 1fr;align-items:center">
+    <svg width="300" height="440" viewBox="0 0 300 440">
+      <line x1="0" y1="380" x2="300" y2="380" stroke="rgba(238,246,240,.4)" stroke-width="2"/>
+      <rect x="20" y="220" width="115" height="160" rx="10" fill="#eef6f0"/>
+      <rect x="165" y="60" width="115" height="320" rx="10" fill="#18ab60"/>
+      <text x="77" y="202" text-anchor="middle" font-size="46" font-weight="800" style="font-family:'Archivo'">~9%</text>
+      <text x="222" y="44" text-anchor="middle" font-size="46" font-weight="800" fill="#18ab60" style="font-family:'Archivo'">~18%</text>
+      <text x="77" y="408" text-anchor="middle" font-size="20" font-weight="700">Resmi</text>
+      <text x="222" y="408" text-anchor="middle" font-size="20" font-weight="700">+ biaya pinjaman</text>
+      <text x="150" y="436" text-anchor="middle" font-size="18" fill="rgba(238,246,240,.6)">Puncak inflasi AS, 2022</text>
     </svg>
     <div>
-      <h3>Revenue Theory of Cost<br><span style="color:var(--mist);font-weight:400;font-size:24px">Howard Bowen, 1980</span></h3>
-      <p>Kampus berlomba mengejar mutu dan gengsi, dan untuk itu tidak ada kata “cukup”. Jadi mereka mengumpulkan dana sebanyak mungkin, lalu menghabiskan semuanya. Biaya mengikuti pemasukan, bukan kebutuhan.</p>
+      <p>Sejak 1983, inflasi resmi AS tidak lagi menghitung bunga KPR. Biaya rumah diukur dari perkiraan <b style="color:#18ab60">berapa sewa rumah itu</b> kalau disewakan.</p>
+      <p style="margin-top:20px">Larry Summers dan rekan (2024) menghitung ulang dengan memasukkan biaya pinjaman. Hasilnya, puncak inflasi 2022 sekitar 18%, dua kali angka resmi. Cicilan bunga KPR baru untuk rumah rata-rata naik hampir 3× sejak akhir 2019.</p>
     </div>
   </div>
 
-  <div class="concept" style="margin-top:56px">
-    <svg width="250" height="230" viewBox="0 0 250 230">
-      <rect x="20" y="20" width="90" height="180" rx="10" fill="#eef6f0"/>
-      <rect x="140" y="76" width="90" height="124" rx="10" fill="#18ab60"/>
-      <text x="185" y="62" text-anchor="middle" font-size="30" font-weight="800" fill="#18ab60" style="font-family:'Archivo'">−31%</text>
-      <text x="65" y="226" text-anchor="middle" font-size="19" font-weight="700">Gratis</text>
-      <text x="185" y="226" text-anchor="middle" font-size="19" font-weight="700">Bayar sendiri</text>
-    </svg>
-    <div>
-      <h3>Yang bayar orang lain<br><span style="color:var(--mist);font-weight:400;font-size:24px">RAND Health Insurance Experiment</span></h3>
-      <p>Dalam eksperimen acak tahun 1970–80-an, keluarga yang menanggung sendiri sebagian besar biaya berobat menghabiskan 31% lebih sedikit. Kesehatan rata-rata hampir sama, tapi perawatan penting ikut terpangkas, dan warga miskin yang sakit lebih dirugikan.</p>
-    </div>
+  <div style="margin-top:30px;padding:24px 30px;border-radius:24px;background:rgba(14,97,66,.28);border:2px solid rgba(24,171,96,.28)">
+    <p style="font-size:24px;line-height:1.4"><b style="color:#18ab60">Tapi ini masih diperdebatkan.</b> BLS menganggap rumah sebagai aset, bukan barang konsumsi. Ekonom seperti J.W. Mason menilai hitungan Summers berlebihan. Efek ini juga paling terasa saat suku bunga naik, seperti 2022–2024.</p>
   </div>
 
-  <div class="end">
-    <p>Hidup kelas menengah terasa makin mahal karena yang paling kita butuhkan, sehat dan sekolah, adalah jenis barang yang paling susah dibuat murah.</p>
+  <div class="end" style="height:230px;padding-top:40px">
+    <p style="font-size:38px">Yang paling kita butuhkan paling susah dibuat murah. Sebagian biayanya bahkan tidak tercatat di angka inflasi.</p>
     <span class="swipe">Sumber →</span>
   </div>
 </section>
@@ -358,18 +338,18 @@
   <h2 style="margin-top:44px">Bacaan &amp; <span class="hl">data</span></h2>
 
   <ol class="src">
-    <li><span>Mark J. Perry (AEI), “Chart of the Century”, pembaruan 2000–2025, via HumanProgress.org (Gale Pooley, 2026). Data TV dari edisi Juli 2022. <i>Data dasar: BLS.</i></span></li>
-    <li><span>Educational Policy Institute, analisis data College Board 1987–2025.</span></li>
-    <li><span>Eric Hanushek, dikutip dalam <i>Christian Science Monitor</i> (1996).</span></li>
+    <li><span>Mark J. Perry (AEI), “Chart of the Century”, pembaruan 2000–2025, via HumanProgress.org (Gale Pooley, 2026); edisi Juli 2022 untuk TV, mainan, software, ponsel. <i>Data dasar: BLS.</i></span></li>
     <li><span>William Baumol &amp; William Bowen (1966), <i>Performing Arts: The Economic Dilemma.</i></span></li>
-    <li><span>William Baumol (1967), “Macroeconomics of Unbalanced Growth”, <i>American Economic Review</i>; Baumol (2012), <i>The Cost Disease</i>, Yale University Press.</span></li>
+    <li><span>William Baumol (1967), <i>American Economic Review</i>; Baumol (2012), <i>The Cost Disease</i>, Yale University Press.</span></li>
     <li><span>Romley, Goldman &amp; Sood (2015), <i>Health Affairs</i> 34(3).</span></li>
-    <li><span>Howard R. Bowen (1980), <i>The Costs of Higher Education.</i></span></li>
-    <li><span>Manning dkk. (1987), “Health Insurance and the Demand for Medical Care”, <i>American Economic Review</i>; RAND Health Insurance Experiment.</span></li>
+    <li><span>Bolhuis, Cramer, Schulz &amp; Summers (2024), “The Cost of Money is Part of the Cost of Living”, NBER Working Paper 32163.</span></li>
+    <li><span>Larry Summers (2024), <i>Finance &amp; Development</i>, IMF.</span></li>
+    <li><span>BLS, “Owners’ equivalent rent and the CPI: 30 years and counting”.</span></li>
+    <li><span>J.W. Mason (2025), “The Cost of Living and the Cost of Money”, <i>Barron’s</i>.</span></li>
   </ol>
 
   <div style="margin-top:40px;padding:26px 30px;border-radius:24px;background:rgba(4,23,36,.4);border:2px solid rgba(24,171,96,.28)">
-    <p style="font-size:24px;line-height:1.4"><b style="color:#18ab60">Catatan:</b> Semua data dari Amerika Serikat. Angka 2000–2025 diambil dari ringkasan chart Perry; angka TV memakai data hingga 2022. Grafik di slide 4 adalah ilustrasi konsep.</p>
+    <p style="font-size:24px;line-height:1.4"><b style="color:#18ab60">Catatan:</b> Semua data dari Amerika Serikat. Angka 2000–2025 diambil dari ringkasan chart Perry; TV, mainan, software, dan ponsel memakai data hingga 2022. Grafik di slide 4 adalah ilustrasi konsep. Angka 18% berasal dari makalah kerja yang belum ditelaah sejawat.</p>
   </div>
 
   <div class="bottom">
