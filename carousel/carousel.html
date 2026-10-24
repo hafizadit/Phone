@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Carousel: Kenapa Hidup Makin Mahal</title>
+<style>
+  /* Headline font: "Olympic" is used when installed locally; Archivo is the free stand-in. */
+  @font-face { font-family: "Archivo"; src: url(fonts/Archivo-var.woff2) format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; }
+  @font-face { font-family: "Thasadith"; src: url(fonts/Thasadith-Regular.woff2) format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Thasadith"; src: url(fonts/Thasadith-Bold.woff2) format("woff2"); font-weight: 700; }
+  @font-face { font-family: "Thasadith"; src: url(fonts/Thasadith-Italic.woff2) format("woff2"); font-weight: 400; font-style: italic; }
+
+  :root {
+    --ink: #041724;
+    --forest: #093c33;
+    --pine: #0e6142;
+    --green: #138651;
+    --lime: #18ab60;
+    --paper: #eef6f0;
+    --mist: rgba(238, 246, 240, .66);
+    --faint: rgba(238, 246, 240, .16);
+    --head: "Olympic", "Archivo", sans-serif;
+    --body: "Thasadith", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #222; font-family: var(--body); color: var(--paper); }
+
+  .slide {
+    position: relative; width: 1080px; height: 1350px; overflow: hidden;
+    padding: 76px 88px 0; display: flex; flex-direction: column;
+    margin: 0 auto 40px;
+  }
+  .dark   { background: radial-gradient(120% 70% at 85% 0%, #0b3a3a 0%, var(--ink) 55%); }
+  .forest { background: radial-gradient(110% 80% at 0% 100%, var(--pine) 0%, var(--forest) 60%); }
+
+  .top { display: flex; justify-content: space-between; align-items: center;
+         font: 700 22px/1 var(--body); letter-spacing: .18em; text-transform: uppercase; color: var(--mist); }
+  .top .num { color: var(--lime); }
+  .rule { height: 2px; background: var(--faint); margin: 26px 0 0; }
+
+  .bottom { position: absolute; left: 88px; right: 88px; bottom: 56px;
+            display: flex; justify-content: space-between; align-items: flex-end; gap: 40px;
+            font: 400 20px/1.35 var(--body); color: var(--mist); }
+  .swipe { font: 700 24px/1 var(--body); color: var(--lime); letter-spacing: .04em; white-space: nowrap; }
+
+  h1, h2 { font-family: var(--head); font-weight: 800; font-stretch: 92%; letter-spacing: -.01em; }
+  h1 { font-size: 76px; line-height: 1.03; margin-top: 56px; }
+  h2 { font-size: 66px; line-height: 1.05; margin-top: 52px; }
+  .hl { color: var(--lime); }
+  .tag { display: inline-block; margin-top: 48px; padding: 10px 18px; border: 2px solid var(--lime);
+         border-radius: 999px; font: 700 22px/1 var(--body); letter-spacing: .14em; color: var(--lime); }
+  .tag + h2 { margin-top: 22px; }
+  .lead { font-size: 33px; line-height: 1.4; margin-top: 28px; color: var(--paper); }
+  .lead b { color: var(--lime); }
+  p.small { font-size: 22px; line-height: 1.4; color: var(--mist); }
+  svg text { font-family: var(--body); fill: var(--paper); }
+  .callout { font: 700 34px/1.3 var(--body); color: var(--paper); border-left: 6px solid var(--lime);
+             padding: 4px 0 4px 26px; }
+
+  /* slide 3 cards */
+  .cards { display: flex; flex-direction: column; gap: 18px; margin-top: 34px; }
+  .card { background: rgba(14, 97, 66, .28); border: 2px solid rgba(24, 171, 96, .28);
+          border-radius: 28px; padding: 26px 34px; display: grid; grid-template-columns: 320px 1fr;
+          gap: 30px; align-items: center; }
+  .card h3 { font: 700 30px/1.15 var(--body); color: var(--lime); margin-bottom: 8px; }
+  .card p { font-size: 26px; line-height: 1.35; }
+  .big { font-family: var(--head); font-weight: 800; font-stretch: 88%; font-size: 60px; line-height: 1; white-space: nowrap; }
+  .big small { font-size: 22px; white-space: normal; font-family: var(--body); font-weight: 400; color: var(--mist); display: block; margin-top: 8px; }
+
+  /* slide 5 */
+  .concept { display: grid; grid-template-columns: 250px 1fr; gap: 34px; align-items: center; margin-top: 30px; }
+  .concept h3 { font: 700 31px/1.2 var(--body); color: var(--lime); margin-bottom: 10px; }
+  .concept p { font-size: 28px; line-height: 1.4; }
+  .end { position: absolute; left: 0; right: 0; bottom: 0; height: 250px; background: var(--lime);
+         padding: 44px 88px 0; color: var(--ink); }
+  .end p { font: 800 40px/1.18 var(--head); font-stretch: 92%; }
+  .end .swipe { position: absolute; right: 88px; bottom: 34px; color: var(--ink); font-size: 20px; letter-spacing: .14em; text-transform: uppercase; }
+
+  /* sources */
+  ol.src { margin-top: 36px; padding-left: 0; list-style: none; counter-reset: s; display: flex; flex-direction: column; gap: 22px; }
+  ol.src li { counter-increment: s; display: grid; grid-template-columns: 56px 1fr; font-size: 28px; line-height: 1.34; }
+  ol.src li::before { content: counter(s, decimal-leading-zero); font: 700 22px/1.5 var(--body); color: var(--lime); }
+  ol.src i { color: var(--mist); }
+</style>
+</head>
+<body>
+
+<!-- ───────────── 01 HOOK ───────────── -->
+<section class="slide dark" id="s1">
+  <div class="top"><span>Kenapa hidup makin mahal?</span><span class="num">01 / 06</span></div>
+  <div class="rule"></div>
+
+  <h1>Di Amerika, harga TV tinggal secuil dibanding tahun 2000.<br><span class="hl">Biaya rumah sakit? Hampir empat kali lipat.</span></h1>
+
+  <svg width="904" height="430" viewBox="0 0 904 430" style="margin-top:40px">
+    <line x1="0" y1="376" x2="904" y2="376" stroke="rgba(238,246,240,.35)" stroke-width="2"/>
+    <line x1="0" y1="282" x2="904" y2="282" stroke="rgba(238,246,240,.4)" stroke-width="2" stroke-dasharray="6 8"/>
+    <text x="0" y="268" font-size="21" fill="rgba(238,246,240,.7)" letter-spacing="1.5">HARGA TAHUN 2000</text>
+
+    <rect x="170" y="282" width="230" height="94" rx="10" fill="none" stroke="rgba(238,246,240,.45)" stroke-width="2.5" stroke-dasharray="8 7"/>
+    <rect x="170" y="370" width="230" height="6" rx="3" fill="#eef6f0"/>
+    <text x="285" y="344" text-anchor="middle" font-size="46" font-weight="700" style="font-family:'Archivo';font-stretch:92%">−97%</text>
+    <text x="285" y="416" text-anchor="middle" font-size="28" font-weight="700">TV</text>
+
+    <rect x="540" y="18" width="230" height="358" rx="10" fill="#18ab60"/>
+    <rect x="540" y="282" width="230" height="94" rx="10" fill="none" stroke="#041724" stroke-opacity=".45" stroke-width="2.5" stroke-dasharray="8 7"/>
+    <text x="655" y="92" text-anchor="middle" font-size="56" font-weight="800" fill="#041724" style="font-family:'Archivo';font-stretch:92%">+281%</text>
+    <text x="655" y="126" text-anchor="middle" font-size="22" fill="#041724">≈ 3,8× lipat</text>
+    <text x="655" y="416" text-anchor="middle" font-size="28" font-weight="700">Layanan rumah sakit</text>
+  </svg>
+
+  <p class="lead" style="margin-top:26px;font-size:31px">Kenapa hal-hal yang paling kita butuhkan justru yang paling cepat naik harganya?</p>
+
+  <div class="bottom">
+    <span>Data Amerika Serikat. Rumah sakit 2000–2025, TV 2000–2022.<br>Sumber: BLS via Mark J. Perry (AEI).</span>
+    <span class="swipe">Geser →</span>
+  </div>
+</section>
+
+<!-- ───────────── 02 THE SPLIT ───────────── -->
+<section class="slide forest" id="s2">
+  <div class="top"><span>Kenapa hidup makin mahal?</span><span class="num">02 / 06</span></div>
+  <div class="rule"></div>
+
+  <h2>Di atas kertas, <span class="hl">gaji kita menang.</span></h2>
+  <p class="lead">Sejak 2000, gaji rata-rata per jam di AS naik <b>131%</b>, sementara harga barang secara umum naik <b>93%</b>. Seharusnya hidup terasa lebih longgar. Tapi lihat rinciannya:</p>
+
+  <!-- zero at x=226, 2.26 px per percentage point -->
+  <svg width="904" height="590" viewBox="0 0 904 590" style="margin-top:34px">
+    <text x="522" y="22" text-anchor="middle" font-size="20" font-weight="700" fill="#eef6f0" letter-spacing="1.5">GARIS GAJI</text>
+    <g stroke-width="2">
+      <line x1="522" y1="32" x2="522" y2="44" stroke="#eef6f0" opacity=".8"/>
+      <line x1="226" y1="32" x2="226" y2="44" stroke="rgba(238,246,240,.45)"/>
+    </g>
+    <text x="226" y="22" text-anchor="middle" font-size="20" fill="rgba(238,246,240,.6)">0</text>
+
+    <g transform="translate(0,52)">
+      <line x1="226" y1="40" x2="226" y2="90" stroke="rgba(238,246,240,.45)" stroke-width="2"/>
+      <line x1="522" y1="40" x2="522" y2="90" stroke="#eef6f0" stroke-width="2" stroke-dasharray="4 5" opacity=".85"/>
+      <text x="0" y="30" font-size="29" font-weight="700">Layanan rumah sakit</text>
+      <text x="904" y="30" text-anchor="end" font-size="34" font-weight="800" fill="#18ab60" style="font-family:'Archivo';font-stretch:92%">+281%</text>
+      <rect x="226" y="46" width="635" height="38" rx="6" fill="#18ab60"/>
+    </g>
+    <g transform="translate(0,156)">
+      <line x1="226" y1="40" x2="226" y2="90" stroke="rgba(238,246,240,.45)" stroke-width="2"/>
+      <line x1="522" y1="40" x2="522" y2="90" stroke="#eef6f0" stroke-width="2" stroke-dasharray="4 5" opacity=".85"/>
+      <text x="0" y="30" font-size="29" font-weight="700">Biaya kuliah</text>
+      <text x="904" y="30" text-anchor="end" font-size="34" font-weight="800" fill="#18ab60" style="font-family:'Archivo';font-stretch:92%">+197%</text>
+      <rect x="226" y="46" width="445" height="38" rx="6" fill="#18ab60"/>
+    </g>
+    <g transform="translate(0,260)">
+      <line x1="226" y1="40" x2="226" y2="90" stroke="rgba(238,246,240,.45)" stroke-width="2"/>
+      <line x1="522" y1="40" x2="522" y2="90" stroke="#eef6f0" stroke-width="2" stroke-dasharray="4 5" opacity=".85"/>
+      <text x="0" y="30" font-size="29" font-weight="700">Gaji rata-rata per jam</text>
+      <text x="904" y="30" text-anchor="end" font-size="34" font-weight="800" style="font-family:'Archivo';font-stretch:92%">+131%</text>
+      <rect x="226" y="46" width="296" height="38" rx="6" fill="#eef6f0"/>
+    </g>
+    <g transform="translate(0,364)">
+      <line x1="226" y1="40" x2="226" y2="90" stroke="rgba(238,246,240,.45)" stroke-width="2"/>
+      <line x1="522" y1="40" x2="522" y2="90" stroke="#eef6f0" stroke-width="2" stroke-dasharray="4 5" opacity=".85"/>
+      <text x="0" y="30" font-size="29" font-weight="700">Harga umum (inflasi)</text>
+      <text x="904" y="30" text-anchor="end" font-size="34" font-weight="800" fill="rgba(238,246,240,.75)" style="font-family:'Archivo';font-stretch:92%">+93%</text>
+      <rect x="226" y="46" width="210" height="38" rx="6" fill="#138651"/>
+    </g>
+    <g transform="translate(0,468)">
+      <line x1="226" y1="40" x2="226" y2="90" stroke="rgba(238,246,240,.45)" stroke-width="2"/>
+      <line x1="522" y1="40" x2="522" y2="90" stroke="#eef6f0" stroke-width="2" stroke-dasharray="4 5" opacity=".85"/>
+      <text x="0" y="30" font-size="29" font-weight="700">TV <tspan font-weight="400" font-size="22" fill="rgba(238,246,240,.66)">(2000–2022)</tspan></text>
+      <text x="904" y="30" text-anchor="end" font-size="34" font-weight="800" fill="rgba(238,246,240,.75)" style="font-family:'Archivo';font-stretch:92%">−97%</text>
+      <rect x="7" y="46" width="219" height="38" rx="6" fill="none" stroke="#eef6f0" stroke-width="2.5"/>
+    </g>
+  </svg>
+
+  <p class="callout" style="margin-top:34px">Barang buatan mesin makin murah. Yang butuh tangan dan waktu manusia makin mahal.</p>
+
+  <div class="bottom">
+    <span>Perubahan harga di AS, 2000–2025. Sumber: BLS via Mark J. Perry (AEI).</span>
+    <span class="swipe">Geser →</span>
+  </div>
+</section>
+
+<!-- ───────────── 03 PUBLIC OR PRIVATE ───────────── -->
+<section class="slide dark" id="s3">
+  <div class="top"><span>Negeri atau swasta?</span><span class="num">03 / 06</span></div>
+  <div class="rule"></div>
+
+  <h2 style="margin-top:44px">Salah pengelolanya?<br><span class="hl">Ternyata dua-duanya kena.</span></h2>
+
+  <div class="cards">
+    <div class="card">
+      <svg width="320" height="176" viewBox="0 0 320 176">
+        <text x="0" y="20" font-size="21" font-weight="700">Inflasi</text>
+        <rect x="0" y="30" width="56" height="26" rx="5" fill="none" stroke="rgba(238,246,240,.55)" stroke-width="2" stroke-dasharray="5 5"/>
+        <text x="68" y="51" font-size="24" font-weight="800" style="font-family:'Archivo'" fill="rgba(238,246,240,.7)">1×</text>
+        <text x="0" y="82" font-size="21" font-weight="700">Negeri</text>
+        <rect x="0" y="92" width="129" height="26" rx="5" fill="#138651"/>
+        <text x="141" y="113" font-size="24" font-weight="800" style="font-family:'Archivo'">2,3×</text>
+        <text x="0" y="144" font-size="21" font-weight="700">Swasta nirlaba</text>
+        <rect x="0" y="150" width="134" height="26" rx="5" fill="#18ab60"/>
+        <text x="146" y="171" font-size="24" font-weight="800" style="font-family:'Archivo'" fill="#18ab60">2,4×</text>
+      </svg>
+      <div>
+        <h3>Kampus negeri &amp; swasta</h3>
+        <p>Selama 1987–2025, biaya kuliah naik 2,3× laju inflasi di kampus negeri dan 2,4× di kampus swasta nirlaba. Hampir sama.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="big">20,5<span class="hl"> → </span>15,4<small>murid per guru, 1970 → 1990</small></div>
+      <div>
+        <h3>Sekolah negeri</h3>
+        <p>Ikut makin mahal. Salah satu sebabnya, satu guru kini mengurus lebih sedikit murid, jadi butuh lebih banyak guru.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <svg width="300" height="130" viewBox="0 0 300 150" aria-label="Ikon panggung">
+        <path d="M10 20 Q150 70 290 20 L290 34 Q150 84 10 34 Z" fill="#18ab60"/>
+        <path d="M10 20 L10 140 L58 140 Q40 80 52 36 Z" fill="#138651"/>
+        <path d="M290 20 L290 140 L242 140 Q260 80 248 36 Z" fill="#138651"/>
+        <g fill="#eef6f0">
+          <circle cx="112" cy="104" r="11"/><rect x="104" y="117" width="16" height="23" rx="5"/>
+          <circle cx="150" cy="98" r="11"/><rect x="142" y="111" width="16" height="29" rx="5"/>
+          <circle cx="188" cy="104" r="11"/><rect x="180" y="117" width="16" height="23" rx="5"/>
+        </g>
+        <line x1="60" y1="141" x2="240" y2="141" stroke="#eef6f0" stroke-width="3"/>
+      </svg>
+      <div>
+        <h3>Seni pertunjukan</h3>
+        <p>Pola ini pertama kali ditemukan di orkestra dan teater, yang tidak ada urusannya dengan pemerintah.</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="callout" style="margin-top:28px;font-size:31px">Mungkin pertanyaannya bukan siapa yang mengelola. Ada sesuatu di sifat pekerjaannya.</p>
+
+  <div class="bottom">
+    <span>Sumber: Educational Policy Institute (data College Board); Hanushek (1996).</span>
+    <span class="swipe">Geser →</span>
+  </div>
+</section>
+
+<!-- ───────────── 04 BAUMOL ───────────── -->
+<section class="slide forest" id="s4">
+  <div class="top"><span>Konsep 1</span><span class="num">04 / 06</span></div>
+  <div class="rule"></div>
+
+  <h2 style="margin-top:44px">Baumol’s <span class="hl">Cost Disease</span></h2>
+  <p class="lead" style="font-size:29px;margin-top:20px">Tahun 1966, ekonom William Baumol dan William Bowen meneliti kenapa orkestra selalu kekurangan uang. Temuannya: di panggung, <b>kerja si pemain itu sendiri adalah produknya.</b> Pabrik bisa membuat TV dua kali lebih cepat dengan mesin baru. Kuartet gesek tetap butuh empat orang dan durasi yang sama. Tapi gaji mereka harus ikut naik, kalau tidak mereka pindah kerja. Guru, perawat, dan dokter ada di posisi yang sama.</p>
+
+  <svg width="904" height="372" viewBox="0 0 904 372" style="margin-top:26px">
+    <defs>
+      <linearGradient id="gap" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#18ab60" stop-opacity=".42"/>
+        <stop offset="1" stop-color="#18ab60" stop-opacity=".06"/>
+      </linearGradient>
+    </defs>
+    <line x1="40" y1="300" x2="890" y2="300" stroke="rgba(238,246,240,.35)" stroke-width="2"/>
+    <line x1="40" y1="20" x2="40" y2="300" stroke="rgba(238,246,240,.35)" stroke-width="2"/>
+    <text x="40" y="332" font-size="20" fill="rgba(238,246,240,.66)">dulu</text>
+    <text x="890" y="332" font-size="20" text-anchor="end" fill="rgba(238,246,240,.66)">sekarang →</text>
+
+    <path d="M40 280 C 300 262, 600 170, 880 40 L 880 262 C 600 270, 300 276, 40 280 Z" fill="url(#gap)"/>
+    <path d="M40 280 C 300 262, 600 170, 880 40" fill="none" stroke="#18ab60" stroke-width="7" stroke-linecap="round"/>
+    <path d="M40 282 C 300 268, 600 196, 880 82" fill="none" stroke="#eef6f0" stroke-width="3" stroke-dasharray="3 9" stroke-linecap="round"/>
+    <path d="M40 280 C 300 276, 600 270, 880 262" fill="none" stroke="#eef6f0" stroke-width="5" stroke-linecap="round"/>
+
+    <text x="862" y="206" text-anchor="end" font-size="24" font-weight="700">Selisih ini menjadi</text>
+    <text x="862" y="236" text-anchor="end" font-size="24" font-weight="700">harga yang makin mahal</text>
+
+    <g font-size="21">
+      <rect x="40" y="350" width="30" height="7" rx="3" fill="#18ab60"/><text x="80" y="360">Gaji, di semua sektor</text>
+      <line x1="330" y1="354" x2="360" y2="354" stroke="#eef6f0" stroke-width="3" stroke-dasharray="3 6"/><text x="370" y="360">Produktivitas pabrik</text>
+      <rect x="610" y="350" width="30" height="7" rx="3" fill="#eef6f0"/><text x="650" y="360">Produktivitas jasa</text>
+    </g>
+  </svg>
+  <p class="small" style="margin-top:4px">Ilustrasi konsep, bukan data.</p>
+
+  <div style="margin-top:22px;padding:24px 30px;border-radius:24px;background:rgba(4,23,36,.45);border:2px solid rgba(24,171,96,.28)">
+    <p style="font-size:24px;line-height:1.35"><b style="color:#18ab60">Tapi hati-hati:</b> sebagian “kemandekan” ini soal cara mengukur. Produktivitas rumah sakit AS, 2002–2011, per tahun:</p>
+    <svg width="844" height="150" viewBox="0 0 860 150" style="margin-top:10px">
+      <!-- axis -1%..+2% → x 400..844, 148 px per % ; zero at 548 -->
+      <line x1="548" y1="4" x2="548" y2="124" stroke="rgba(238,246,240,.45)" stroke-width="2"/>
+      <text x="0" y="28" font-size="22">Hitung jumlah perawatan</text>
+      <text x="0" y="56" font-size="24" font-weight="700">−0,9 s/d −0,4%</text>
+      <rect x="413" y="20" width="77" height="30" rx="6" fill="#eef6f0"/>
+      <text x="0" y="94" font-size="22">Hitung pasien pulang selamat</text>
+      <text x="0" y="122" font-size="24" font-weight="700" fill="#18ab60">+0,6 s/d +1,9%</text>
+      <rect x="640" y="86" width="190" height="30" rx="6" fill="#18ab60"/>
+      <g font-size="18" fill="rgba(238,246,240,.6)" text-anchor="middle" style="font-variant-numeric:tabular-nums">
+        <text x="400" y="146">−1%</text><text x="548" y="146">0%</text><text x="696" y="146">+1%</text><text x="826" y="146">+2%</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="bottom">
+    <span>Baumol &amp; Bowen (1966); Romley, Goldman &amp; Sood (2015).</span>
+    <span class="swipe">Geser →</span>
+  </div>
+</section>
+
+<!-- ───────────── 05 BOWEN + RAND ───────────── -->
+<section class="slide dark" id="s5">
+  <div class="top"><span>Konsep 2 &amp; 3</span><span class="num">05 / 06</span></div>
+  <div class="rule"></div>
+
+  <h2 style="margin-top:44px">Dua hal lain yang <span class="hl">ikut mendorong harga</span></h2>
+
+  <div class="concept" style="margin-top:40px">
+    <svg width="250" height="250" viewBox="-14 0 278 250">
+      <defs><marker id="ar" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#18ab60"/></marker></defs>
+      <circle cx="125" cy="125" r="92" fill="none" stroke="rgba(24,171,96,.25)" stroke-width="16"/>
+      <path d="M 160 40 A 92 92 0 0 1 214 150" fill="none" stroke="#18ab60" stroke-width="5" marker-end="url(#ar)"/>
+      <path d="M 190 196 A 92 92 0 0 1 60 196" fill="none" stroke="#18ab60" stroke-width="5" marker-end="url(#ar)"/>
+      <path d="M 36 150 A 92 92 0 0 1 90 40" fill="none" stroke="#18ab60" stroke-width="5" marker-end="url(#ar)"/>
+      <g font-size="19" font-weight="700" text-anchor="middle">
+        <text x="125" y="26">Kumpulkan dana</text>
+        <text x="214" y="232">Habiskan</text>
+        <text x="44" y="232">Kejar gengsi</text>
+      </g>
+      <text x="125" y="122" text-anchor="middle" font-size="36" font-weight="800" fill="#18ab60" style="font-family:'Archivo'">Rp</text>
+      <text x="125" y="150" text-anchor="middle" font-size="19" fill="rgba(238,246,240,.7)">terus berputar</text>
+    </svg>
+    <div>
+      <h3>Revenue Theory of Cost<br><span style="color:var(--mist);font-weight:400;font-size:24px">Howard Bowen, 1980</span></h3>
+      <p>Kampus berlomba mengejar mutu dan gengsi, dan untuk itu tidak ada kata “cukup”. Jadi mereka mengumpulkan dana sebanyak mungkin, lalu menghabiskan semuanya. Biaya mengikuti pemasukan, bukan kebutuhan.</p>
+    </div>
+  </div>
+
+  <div class="concept" style="margin-top:56px">
+    <svg width="250" height="230" viewBox="0 0 250 230">
+      <rect x="20" y="20" width="90" height="180" rx="10" fill="#eef6f0"/>
+      <rect x="140" y="76" width="90" height="124" rx="10" fill="#18ab60"/>
+      <text x="185" y="62" text-anchor="middle" font-size="30" font-weight="800" fill="#18ab60" style="font-family:'Archivo'">−31%</text>
+      <text x="65" y="226" text-anchor="middle" font-size="19" font-weight="700">Gratis</text>
+      <text x="185" y="226" text-anchor="middle" font-size="19" font-weight="700">Bayar sendiri</text>
+    </svg>
+    <div>
+      <h3>Yang bayar orang lain<br><span style="color:var(--mist);font-weight:400;font-size:24px">RAND Health Insurance Experiment</span></h3>
+      <p>Dalam eksperimen acak tahun 1970–80-an, keluarga yang menanggung sendiri sebagian besar biaya berobat menghabiskan 31% lebih sedikit. Kesehatan rata-rata hampir sama, tapi perawatan penting ikut terpangkas, dan warga miskin yang sakit lebih dirugikan.</p>
+    </div>
+  </div>
+
+  <div class="end">
+    <p>Hidup kelas menengah terasa makin mahal karena yang paling kita butuhkan, sehat dan sekolah, adalah jenis barang yang paling susah dibuat murah.</p>
+    <span class="swipe">Sumber →</span>
+  </div>
+</section>
+
+<!-- ───────────── 06 SOURCES ───────────── -->
+<section class="slide forest" id="s6">
+  <div class="top"><span>Sumber</span><span class="num">06 / 06</span></div>
+  <div class="rule"></div>
+
+  <h2 style="margin-top:44px">Bacaan &amp; <span class="hl">data</span></h2>
+
+  <ol class="src">
+    <li><span>Mark J. Perry (AEI), “Chart of the Century”, pembaruan 2000–2025, via HumanProgress.org (Gale Pooley, 2026). Data TV dari edisi Juli 2022. <i>Data dasar: BLS.</i></span></li>
+    <li><span>Educational Policy Institute, analisis data College Board 1987–2025.</span></li>
+    <li><span>Eric Hanushek, dikutip dalam <i>Christian Science Monitor</i> (1996).</span></li>
+    <li><span>William Baumol &amp; William Bowen (1966), <i>Performing Arts: The Economic Dilemma.</i></span></li>
+    <li><span>William Baumol (1967), “Macroeconomics of Unbalanced Growth”, <i>American Economic Review</i>; Baumol (2012), <i>The Cost Disease</i>, Yale University Press.</span></li>
+    <li><span>Romley, Goldman &amp; Sood (2015), <i>Health Affairs</i> 34(3).</span></li>
+    <li><span>Howard R. Bowen (1980), <i>The Costs of Higher Education.</i></span></li>
+    <li><span>Manning dkk. (1987), “Health Insurance and the Demand for Medical Care”, <i>American Economic Review</i>; RAND Health Insurance Experiment.</span></li>
+  </ol>
+
+  <div style="margin-top:40px;padding:26px 30px;border-radius:24px;background:rgba(4,23,36,.4);border:2px solid rgba(24,171,96,.28)">
+    <p style="font-size:24px;line-height:1.4"><b style="color:#18ab60">Catatan:</b> Semua data dari Amerika Serikat. Angka 2000–2025 diambil dari ringkasan chart Perry; angka TV memakai data hingga 2022. Grafik di slide 4 adalah ilustrasi konsep.</p>
+  </div>
+
+  <div class="bottom">
+    <span></span>
+    <span class="swipe">Simpan &amp; bagikan ↗</span>
+  </div>
+</section>
+
+</body>
+</html>
