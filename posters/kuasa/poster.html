@@ -48,7 +48,7 @@
 
   /* headline: heavy, two lines gold + last line white, tilted up, soft shadow */
   .headline {
-    position: absolute; left: 86px; top: 172px; transform: rotate(-4deg); transform-origin: left top;
+    position: absolute; left: 80px; top: 170px; transform: rotate(-4deg); transform-origin: left top;
     font: 800 102px/1.06 var(--sans); letter-spacing: -.005em; color: var(--gold);
     text-shadow: 0 6px 18px rgba(0, 8, 50, .45);
   }
@@ -93,6 +93,13 @@
       radial-gradient(60% 30% at 0% 20%, rgba(20, 50, 150, .45) 0%, transparent 100%),
       radial-gradient(50% 22% at 100% 100%, rgba(50, 80, 180, .55) 0%, transparent 100%),
       linear-gradient(to top, rgba(14, 34, 120, .5) 0%, transparent 22%); }
+  /* foreground cutout of the same photo, stacked above the headline so it passes behind people/table */
+  .photo.fg { z-index: 2; }
+  .tint.fg { z-index: 2;
+    -webkit-mask: url(assets/photo-cutout.png) 0 -330px / 1080px auto no-repeat;
+            mask: url(assets/photo-cutout.png) 0 -330px / 1080px auto no-repeat; }
+  .headline { z-index: 1; }
+  .panel, .body, .script, .bar, .url, .brand-img { z-index: 3; }
   .brand-img { position: absolute; left: 33px; top: 19px; width: 275px; }
 </style>
 </head>
@@ -110,6 +117,8 @@
   <img class="brand-img" src="assets/logo-white.png" alt="Kementerian Keuangan | DJP">
 
   <h1 class="headline">Ingin Urus<br>Pajak Lewat<br><span class="w">Kuasa?</span></h1>
+  <img class="photo fg" src="assets/photo-cutout.png" alt="">
+  <div class="tint fg"></div>
 
   <div class="panel">
     Pastikan sesuai<br>ketentuan terbaru
