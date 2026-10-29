@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Poster: Urus Pajak Lewat Kuasa</title>
+<style>
+  /* Built from styles/djp-poster/template.html. Canvas 1080x1350 (4:5). */
+  @font-face { font-family: "Montserrat"; src: url(../../styles/djp-poster/fonts/Montserrat-var.ttf) format("truetype"); font-weight: 100 900; }
+  @font-face { font-family: "Caveat"; src: url(../../styles/djp-poster/fonts/Caveat-var.ttf) format("truetype"); font-weight: 400 700; }
+
+  :root {
+    --royal: #102078;      /* base background */
+    --royal-lt: #1a3aa1;   /* lighter blue in the gradient */
+    --royal-glow: #4a62c2; /* lightest corner */
+    --navy: #001048;       /* info panel */
+    --ink: #0e1a4a;        /* text on yellow */
+    --gold: #e8b800;       /* headline accent */
+    --yellow: #f8e000;     /* pill + script tagline */
+    --white: #ffffff;
+    --soft: #f0f8f8;       /* body text */
+    --sans: "Montserrat", sans-serif;
+    --script: "Caveat", cursive;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #222; font-family: var(--sans); color: var(--white); }
+
+  .poster {
+    position: relative; width: 1080px; height: 1350px; overflow: hidden; margin: 0 auto 40px;
+    background:
+      radial-gradient(38% 30% at 100% 100%, var(--royal-glow) 0%, transparent 100%),
+      radial-gradient(55% 40% at 0% 25%, var(--royal-lt) 0%, transparent 100%),
+      radial-gradient(60% 45% at 100% 50%, #16399c 0%, transparent 100%),
+      var(--royal);
+  }
+  /* warm bokeh glows at the edges */
+  .glow { position: absolute; border-radius: 50%; filter: blur(40px); opacity: .55; pointer-events: none; }
+  .glow.tr { width: 220px; height: 220px; right: -110px; top: -110px; background: #e6c27a; }
+  .glow.l  { width: 160px; height: 200px; left: -100px; top: 1130px; background: #c9a24a; opacity: .4; }
+  /* translucent swooshes */
+  .swoosh { position: absolute; inset: 0; pointer-events: none; }
+
+  /* header: emblem | logo */
+  .brand { position: absolute; left: 30px; top: 9px; height: 108px; display: flex; align-items: center; gap: 30px; }
+  .brand .emblem { width: 82px; height: 82px; display: grid; place-items: center; }
+  .brand .divider { width: 1.5px; align-self: stretch; background: rgba(255,255,255,.75); }
+  .brand .logo { height: 46px; display: flex; align-items: center; font: 700 46px/1 var(--sans); letter-spacing: -.02em; }
+  .brand img { height: 100%; width: auto; }
+
+  /* headline: heavy, two lines gold + last line white, tilted up, soft shadow */
+  .headline {
+    position: absolute; left: 86px; top: 172px; transform: rotate(-4deg); transform-origin: left top;
+    font: 800 102px/1.06 var(--sans); letter-spacing: -.005em; color: var(--gold);
+    text-shadow: 0 6px 18px rgba(0, 8, 50, .45);
+  }
+  .headline .w { color: var(--white); }
+
+  /* cut-out photo sits under the headline's last line */
+  .hero { position: absolute; left: 0; top: 230px; width: 1080px; height: 640px; object-fit: contain; }
+  .hero.placeholder { left: 40px; top: 380px; width: 800px; height: 480px; border: 3px dashed rgba(255,255,255,.35);
+    border-radius: 40px; display: grid; place-items: center; font: 600 24px/1.4 var(--sans); color: rgba(255,255,255,.55); text-align: center; }
+
+  /* info panel + yellow pill */
+  .panel {
+    position: absolute; left: 651px; top: 905px; width: 359px; padding: 18px 0 18px;
+    background: rgba(0, 16, 72, .82); border-radius: 22px; text-align: center;
+    font: 500 26px/1.2 var(--sans); color: var(--soft);
+  }
+  .pill {
+    display: block; width: 312px; margin: 18px auto 0; padding: 11px 0; white-space: nowrap; background: var(--yellow); border-radius: 10px;
+    font: 700 29px/1.03 var(--sans); color: var(--ink);
+  }
+
+  /* bottom-left body copy */
+  .body { position: absolute; left: 85px; top: 1124px; width: 620px; font: 400 24.5px/1.46 var(--sans); letter-spacing: .01em; color: var(--soft); }
+
+  /* bottom-right handwritten tagline */
+  .script {
+    position: absolute; left: 721px; top: 1112px; transform: rotate(-3deg); transform-origin: left top;
+    font: 700 46px/.95 var(--script); color: var(--yellow);
+  }
+
+  /* footer: 3-segment bar + url */
+  .bar { position: absolute; left: 85px; top: 1310px; width: 727px; height: 7px; display: flex; }
+  .bar i { flex: 1; } .bar i:nth-child(1) { background: var(--white); }
+  .bar i:nth-child(2) { background: var(--gold); } .bar i:nth-child(3) { background: var(--yellow); }
+  .url { position: absolute; right: 58px; top: 1296px; font: 700 23px/1 var(--sans); color: var(--white); }
+
+  /* full-bleed photo: its own navy backdrop becomes the poster background */
+  .photo { position: absolute; left: 0; top: -330px; width: 1080px; height: auto; }
+  .tint { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen;
+    background:
+      radial-gradient(70% 22% at 30% 0%, rgba(16, 40, 140, .55) 0%, transparent 100%),
+      radial-gradient(60% 30% at 0% 20%, rgba(20, 50, 150, .45) 0%, transparent 100%),
+      radial-gradient(50% 22% at 100% 100%, rgba(50, 80, 180, .55) 0%, transparent 100%),
+      linear-gradient(to top, rgba(14, 34, 120, .5) 0%, transparent 22%); }
+  .brand-img { position: absolute; left: 33px; top: 19px; width: 275px; }
+</style>
+</head>
+<body>
+
+<section class="poster">
+  <img class="photo" src="assets/photo.jpg" alt="">
+  <div class="tint"></div>
+  <div class="glow tr"></div>
+  <div class="glow l"></div>
+  <svg class="swoosh" viewBox="0 0 1080 1350" aria-hidden="true">
+    <path d="M460 1110 C 560 1050, 680 1040, 790 1080 C 920 1130, 1010 1190, 1080 1290" fill="none" stroke="#ffffff" stroke-width="50" stroke-linecap="round" opacity=".06"/>
+  </svg>
+
+  <img class="brand-img" src="assets/logo-white.png" alt="Kementerian Keuangan | DJP">
+
+  <h1 class="headline">Ingin Urus<br>Pajak Lewat<br><span class="w">Kuasa?</span></h1>
+
+  <div class="panel">
+    Pastikan sesuai<br>ketentuan terbaru
+    <div class="pill">PMK No. 44/2026</div>
+  </div>
+
+  <p class="body">Mewakili atau diwakilkan dalam mengurus perpajakan kini semakin jelas pengaturannya</p>
+
+  <div class="script">Lebih Tertata,<br>Lebih Profesional</div>
+
+  <div class="bar"><i></i><i></i><i></i></div>
+  <div class="url">www.pajak.go.id</div>
+</section>
+
+</body>
+</html>
