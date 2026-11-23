@@ -77,10 +77,52 @@ function createHand(seed = 1, idPrefix = 'h') {
     return `<clipPath id="${id}"><path d="${handPath(grown, { amt: 4, over: 0 })}Z"/></clipPath>
 <g clip-path="url(#${id})"><path d="${d}" fill="none" stroke="${color}" stroke-width="${w}" stroke-linejoin="round" opacity="${op}" filter="url(#wax)"/></g>`;
   }
+  // messy, kid-style colouring: several stroke layers at different angles, widths and
+  // pressure, a darker "pressed harder" layer, loopy scribbles, strokes that stop short,
+  // and a spill over the outline that is uneven (bulges on some sides, almost none on others)
+  function scribbleFill(poly, color, { spill = 18, shade = null, base = 1, loops = true, density = 1 } = {}) {
+    const id = `${idPrefix}-s${clipN++}`;
+    const cx = poly.reduce((s, p) => s + p[0], 0) / poly.length, cy = poly.reduce((s, p) => s + p[1], 0) / poly.length;
+    const dense = resample([...poly, poly[0]], 22).slice(0, -1);
+    let nz = 0;
+    const region = dense.map(([x, y]) => {
+      nz = nz * 0.8 + jit(0.9);
+      const e = spill * Math.max(-0.35, 0.35 + nz), l = Math.hypot(x - cx, y - cy) || 1;
+      return [x + (x - cx) / l * e, y + (y - cy) / l * e];
+    });
+    const xs = region.map(p => p[0]), ys = region.map(p => p[1]);
+    const R = Math.hypot(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys)) / 2 + 20;
+    const layer = (angle, gap, w, op, col, skip) => {
+      const ca = Math.cos(angle), sa = Math.sin(angle), els = [];
+      let pts = [], flip = false;
+      const flush = () => { if (pts.length > 1) els.push(`<path d="M${pts.map(p => `${f(p[0])},${f(p[1])}`).join(' L')}" fill="none" stroke="${col}" stroke-width="${f(w * (0.65 + rnd() * 0.7))}" stroke-linejoin="round" stroke-linecap="round" opacity="${f(op * (0.6 + rnd() * 0.4))}" filter="url(#wax)"/>`); pts = []; };
+      for (let t = -R; t <= R; t += gap * (0.55 + rnd() * 1.1)) {
+        if (rnd() < skip) { flush(); continue; }
+        const a = [-R * (1 - rnd() * 0.3), t + jit(gap * 0.4)], b = [R * (1 - rnd() * 0.3), t + gap * 0.5 + jit(gap * 0.4)];
+        (flip ? [b, a] : [a, b]).forEach(([u, v]) => pts.push([cx + u * ca - v * sa, cy + u * sa + v * ca]));
+        flip = !flip;
+        if (pts.length > 6 + rnd() * 8) flush();
+      }
+      flush();
+      return els.join('');
+    };
+    const a0 = rnd() * Math.PI;
+    let body = layer(a0, 9 / density, 11, 0.95, color, 0.06)
+             + layer(a0 + 0.7 + jit(0.3), 14 / density, 9, 0.7, color, 0.25)
+             + layer(a0 - 1.1 + jit(0.3), 22, 7, 0.45, color, 0.45);
+    if (shade) body += layer(a0 + 0.3 + jit(0.4), 26, 6, 0.55, shade, 0.5);
+    if (loops) {
+      const n = 60, ph = rnd() * 6, k1 = 2 + rnd() * 2, k2 = 3 + rnd() * 2;
+      const rx = (Math.max(...xs) - Math.min(...xs)) * 0.42, ry = (Math.max(...ys) - Math.min(...ys)) * 0.42;
+      const lp = Array.from({ length: n }, (_, i) => { const t = i / n * Math.PI * 2; return [cx + rx * Math.sin(k1 * t + ph) + jit(12), cy + ry * Math.sin(k2 * t) + jit(12)]; });
+      body += `<path d="${handPath(lp, { amt: 6, over: 0 })}" fill="none" stroke="${shade || color}" stroke-width="5" stroke-linecap="round" opacity=".35" filter="url(#wax)"/>`;
+    }
+    return `<clipPath id="${id}"><path d="${handPath([...region, region[0]], { amt: 3, over: 0 })}Z"/></clipPath><g clip-path="url(#${id})" opacity="${base}">${body}</g>`;
+  }
   // a filled shape with a slightly wobbly edge (no outline)
   const blob = (poly, fill, op = 1) => `<path d="${handPath([...poly, poly[0]], { amt: 1.5, over: 0 })}Z" fill="${fill}" opacity="${op}"/>`;
 
-  return { rnd, jit, f, resample, handPath, pathEl, line, outline, colorIn, blob };
+  return { rnd, jit, f, resample, handPath, pathEl, line, outline, colorIn, scribbleFill, blob };
 }
 
 // SVG filter definitions; theme needs grainDark / grainLight (paper texture strength)

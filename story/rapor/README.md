@@ -7,9 +7,11 @@ Visual: a primary-school report card ("rapor") whose teacher's note says
 "Kurang rajin. Sering melamun di kelas.", with sticky notes adding what it left out.
 Everything in the drawing is crayon, like past-you: hand-lettered text (each letter
 with its own size, tilt, height and spacing, gone over twice), freehand table,
-outlines drawn twice with overshooting corners, page and notes coloured in with
-crayon hatching that spills past the edges, over a solid base (so nothing behind
-them shows through). No flat digital fills or drop shadows. Small words get a
+outlines drawn twice with overshooting corners. Page and notes use
+`scribbleFill` from `../shared/hand.js`: several stroke layers at different
+angles, widths and pressure, a darker "pressed harder" layer, loopy scribbles,
+strokes that stop short, and an uneven spill past the outline (big on some sides,
+almost none on others), all over a solid base so nothing behind shows through. No flat digital fills or drop shadows. Small words get a
 little less wobble so they stay readable.
 The hand-drawn toolkit and filters are shared: `../shared/hand.js`.
 

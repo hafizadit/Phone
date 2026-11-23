@@ -14,8 +14,9 @@ const T = {
 };
 
 const H = createHand(5113, 'rp');
-const { rnd, jit, f, line, outline, colorIn, blob } = H;
+const { rnd, jit, f, line, outline, scribbleFill, blob } = H;
 // lighten a hex colour towards white (solid base under crayon hatching, so nothing shows through)
+const shadeOf = (hex, k) => '#' + [1, 3, 5].map(i => Math.round(parseInt(hex.slice(i, i + 2), 16) * (1 - k)).toString(16).padStart(2, '0')).join('');
 const tint = (hex, k) => '#' + [1, 3, 5].map(i => Math.round(parseInt(hex.slice(i, i + 2), 16) * (1 - k) + 255 * k).toString(16).padStart(2, '0')).join('');
 const out = [];
 const g = (s) => out.push(s);
@@ -43,7 +44,7 @@ const rough = (poly, color, w) => outline(poly, color, w, { amt: 4.5, over: 16, 
 // ---------- the report card: a crooked sheet coloured in with white crayon ----------
 const page = [J([298, 566]), J([782, 556]), J([790, 1292]), J([292, 1300])];
 g(blob(page, T.pageBase));
-g(colorIn(page, T.page, { gap: 7, w: 11, angle: -0.35, op: 0.97, spill: 12, sparse: 0.04 }));   // white crayon runs past the edges
+g(scribbleFill(page, T.page, { spill: 16, shade: '#e4e2d2', loops: false }));   // white crayon, messy, runs past the edges
 g(rough(page, T.line, 6.5));
 
 g(write(540, 650, 'RAPOR', { size: 70, anchor: 'middle', wob: 5 }));
@@ -79,8 +80,8 @@ function sticky(cx, cy, rot, color, lines, size = 40) {
   const w = 214, h = 196, x0 = cx - w / 2, y0 = cy - h / 2, x1 = x0 + w, y1 = y0 + h;
   const sq = [J([x0, y0], 5), J([x1, y0], 5), J([x1, y1], 5), J([x0, y1], 5)];
   const s = [];
-  s.push(blob(sq, tint(color, 0.45)));
-  s.push(colorIn(sq, color, { gap: 8, w: 11, angle: 0.5 + jit(0.4), op: 0.95, spill: 16, sparse: 0.05 }));   // colour goes over the lines
+  s.push(blob(sq, tint(color, 0.6)));
+  s.push(scribbleFill(sq, color, { spill: 22, shade: shadeOf(color, 0.18) }));   // messy colouring that goes over the lines
   s.push(rough(sq, T.line, 4.5));
   s.push(line([[x1 - 38, y1 + 3], [x1 - 4, y1 - 32]], T.line, 3.5, { amt: 3, over: 8, retrace: 0.4 }));   // curled corner
   const lh = size * 0.98, top = cy - (lines.length - 1) * lh / 2 + size * 0.32;
@@ -119,7 +120,7 @@ const html = `<!doctype html>
   <svg width="1080" height="1920" viewBox="0 0 1080 1920" aria-hidden="true">
     <defs>${defs(T)}
     </defs>
-    <g transform="translate(540 941) scale(0.94) translate(-540 -925)">
+    <g transform="translate(540 951) scale(0.94) translate(-540 -925)">
     <g transform="rotate(-2 540 925)">
 ${out.join('\n')}
     </g>
