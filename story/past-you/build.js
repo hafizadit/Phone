@@ -102,14 +102,15 @@ function build(themeName) {
   // ---------- wobbly capitals (unit box) ----------
   const arc = (cx, cy, rx, ry, a0, a1, n = 12) => Array.from({ length: n + 1 }, (_, i) => { const a = (a0 + (a1 - a0) * i / n) * Math.PI / 180; return [cx + rx * Math.cos(a), cy + ry * Math.sin(a)]; });
   const GLYPHS = {
-    // chunky block capitals: straight sides, small chamfered corners
-    P: [[[0.01, 1.02], [0, 0]], [[0, 0.01], [0.74, 0], [0.92, 0.13], [0.93, 0.41], [0.75, 0.55], [0.02, 0.56]]],
-    A: [[[0, 1.02], [0.36, 0], [0.66, 0.01], [1, 1.02]], [[0.2, 0.62], [0.82, 0.61]]],
-    S: [[[0.96, 0.03], [0.16, 0.02], [0.03, 0.13], [0.03, 0.4], [0.15, 0.5], [0.86, 0.5], [0.97, 0.61], [0.96, 0.88], [0.84, 0.99], [0.03, 1]]],
+    // soft hand capitals: rounded where a hand would round, not inflated
+    P: [[[0.02, 1.02], [0, 0]], [[0, 0.01], [0.48, 0], ...arc(0.5, 0.27, 0.42, 0.27, -90, 90, 8), [0.02, 0.55]]],
+    A: [[[0, 1.01], [0.44, 0], [0.57, 0.01], [1, 1.02]], [[0.2, 0.63], [0.82, 0.62]]],
+    S: [[[0.94, 0.14], [0.66, 0], [0.24, 0.02], [0.04, 0.2], [0.18, 0.43], [0.76, 0.55], [0.97, 0.77], [0.8, 0.98], [0.36, 1.02], [0.03, 0.86]]],
     T: [[[-0.06, 0.02], [1.06, 0]], [[0.49, 0.01], [0.51, 1.03]]],
     Y: [[[0, 0], [0.5, 0.5]], [[1.01, -0.01], [0.5, 0.5], [0.5, 1.03]]],
-    O: [[[0.15, 0], [0.85, 0.01], [1, 0.15], [0.99, 0.86], [0.85, 1], [0.15, 0.99], [0, 0.85], [0.01, 0.15], [0.15, 0]]],
-    U: [[[0, -0.01], [0.01, 0.82], [0.17, 1], [0.84, 0.99], [1, 0.82], [1.01, 0]]],
+    O: [Array.from({ length: 19 }, (_, i) => { const a = (-100 + i * 20) * Math.PI / 180, k = 1 + 0.1 * Math.abs(Math.sin(2 * a));
+         return [0.5 + 0.5 * k * Math.cos(a), 0.5 + 0.52 * k * Math.sin(a)]; })],
+    U: [[[0, -0.01], [0.01, 0.6], ...arc(0.5, 0.62, 0.5, 0.38, 180, 0, 10), [1.01, 0]]],
   };
   // back-and-forth hatch path covering a circle of radius R around (cx, cy)
   function hatch(cx, cy, R, gap, angle) {
@@ -127,7 +128,7 @@ function build(themeName) {
   // LETTERS=sticker : bold crayon stroke, white rim, thin dark crayon edge (closer to the first version)
   function letter(ch, x, y, w, h, color, sw) {
     const style = process.env.LETTERS || 'bubble';
-    const rot = jit(3), s = 0.96 + rnd() * 0.08;
+    const rot = jit(5), s = 0.95 + rnd() * 0.1;
     const cx = x + w / 2, cy = y + h / 2;
     const polys = GLYPHS[ch].map(poly => poly.map(([u, v]) => [x + u * w, y + v * h]));
     // one hand path per stroke, reused by every layer so the layers line up like one drawn letter
@@ -136,17 +137,20 @@ function build(themeName) {
     const layer = (stroke, width, filter, op = 1) => paths.map(d => `<path d="${d}" fill="none" stroke="${stroke}" stroke-width="${width}" ${cap} opacity="${op}"${filter ? ` filter="url(#${filter})"` : ''}/>`).join('');
     let body = '';
     if (style === 'bubble') {
-      const W = sw;
+      const W = sw + jit(3);
       const id = `${themeName}-m${maskN++}`;
-      body += layer(T.line, W + 11, 'crayon');                    // outer crayon edge
-      body += layer(T.bg, W, null);                               // hollow it out
-      body += `<mask id="${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="1080" height="1920">${paths.map(d => `<path d="${d}" fill="none" stroke="#fff" stroke-width="${W + 3}" ${cap}/>`).join('')}</mask>`;
+      const rc = 'stroke-linecap="round" stroke-linejoin="round"';
+      const outer = polys.map(p => handPath(p.map(([a, b]) => [a + jit(2), b + jit(2)]), { amt: 2.8, over: 2 }));
+      const inner = polys.map(p => handPath(p, { amt: 2.2, over: 0 }));
+      body += outer.map(d => `<path d="${d}" fill="none" stroke="${T.line}" stroke-width="${f(W + 10)}" ${rc} filter="url(#crayon)"/>`).join('');
+      body += inner.map(d => `<path d="${d}" fill="none" stroke="${T.bg}" stroke-width="${f(W)}" ${rc}/>`).join('');
+      // the colouring follows its own path, so it slips over the outline here and there
+      const fillPaths = polys.map(p => handPath(p.map(([a, b]) => [a + jit(3), b + jit(3)]), { amt: 2.5, over: 0 }));
+      body += `<mask id="${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="1080" height="1920">${fillPaths.map(d => `<path d="${d}" fill="none" stroke="#fff" stroke-width="${f(W + 2)}" ${rc}/>`).join('')}</mask>`;
       body += `<g mask="url(#${id})"><path d="${hatch(cx, cy, Math.max(w, h) * 0.85, 8, -0.9 + jit(0.3))}" fill="none" stroke="${color}" stroke-width="9" stroke-linejoin="round" opacity=".95" filter="url(#wax)"/>`
             + `<path d="${hatch(cx, cy, Math.max(w, h) * 0.85, 13, 0.5 + jit(0.3))}" fill="none" stroke="${color}" stroke-width="7" stroke-linejoin="round" opacity=".55" filter="url(#wax)"/></g>`;
-      // a little shine mark, the way kids draw bubble letters
       const p0 = polys[0], a = p0[0], b = p0[Math.min(1, p0.length - 1)];
-      const t1 = 0.18, t2 = 0.38;
-      const sh = [[a[0] + (b[0] - a[0]) * t1, a[1] + (b[1] - a[1]) * t1], [a[0] + (b[0] - a[0]) * t2, a[1] + (b[1] - a[1]) * t2]];
+      const sh = [0.18, 0.36].map(t => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]);
       const nx = -(b[1] - a[1]), ny = b[0] - a[0], nl = Math.hypot(nx, ny) || 1, off = W * 0.22;
       body += pathEl(handPath(sh.map(([px, py]) => [px + nx / nl * off, py + ny / nl * off]), { amt: 1, over: 2 }), PAPER_WHITE, 5, 0.95);
     } else {
@@ -177,24 +181,20 @@ function build(themeName) {
 
   // crayons: uneven widths, heights and lean
   const crayons = [
-    { x: 345, top: 650, w: 60, lean: -6, color: K.red },
-    { x: 428, top: 592, w: 66, lean: -2, color: K.orange },
-    { x: 514, top: 640, w: 58, lean: 3, color: K.green },
-    { x: 596, top: 570, w: 64, lean: -1, color: K.blue },
-    { x: 684, top: 668, w: 60, lean: 7, color: K.yellow },
+    { x: 378, top: 650, w: 58, lean: -3, color: K.red },
+    { x: 452, top: 592, w: 62, lean: -1, color: K.orange },
+    { x: 530, top: 640, w: 56, lean: 2, color: K.green },
+    { x: 602, top: 570, w: 62, lean: -1, color: K.blue },
+    { x: 682, top: 668, w: 58, lean: 4, color: K.yellow },
   ];
   const base = 905;
-  // crayons can only show above the opening, never outside the box walls
-  const crayonClip = `${themeName}-crayons`;
-  // hidden only below/left of the left rim segment (fTL -> bTL); free above the rim
-  const dx = bTL[0] - fTL[0], dy = bTL[1] - fTL[1];
-  const P1 = [fTL[0] - dx * 3, fTL[1] - dy * 3];
-  g(`<clipPath id="${crayonClip}"><path d="M${f(P1[0])},${f(P1[1])} L${f(fTL[0])},${f(fTL[1])} L${f(bTL[0])},${f(bTL[1])} L${f(bTL[0] - 2400)},-1000 L3000,-1000 L3000,3000 L${f(P1[0])},3000 Z"/></clipPath><g clip-path="url(#${crayonClip})">`);
   crayons.forEach((c) => {
     const l = c.x, r = c.x + c.w, t = c.top, tipH = 50 + rnd() * 16, mid = l + c.w / 2 + jit(5);
     const bodyPoly = [[l, base + 40], [l + jit(2), t], [r + jit(2), t], [r, base + 40]];
     const tipPoly = [[l + 8, t + 2], [mid, t - tipH], [r - 8, t + 2]];
     const cg = [];
+    // solid paper underneath: crayon wax is see-through, the box lines behind must not show
+    cg.push(`<path d="${handPath([[l, base + 40], [l, t], [mid, t - tipH], [r, t], [r, base + 40]], { amt: 1.5, over: 0 })}Z" fill="${T.bg}"/>`);
     cg.push(colorIn(bodyPoly, c.color, { gap: 10, w: 10, angle: 1.3 + jit(0.25), spill: 9, sparse: 0 }));
     cg.push(colorIn(tipPoly, c.color, { gap: 8, w: 8, angle: 0.3 + jit(0.3), spill: 6 }));
     cg.push(outline([[l, base + 20], [l, t], [r, t], [r, base + 20]], T.line, 6.5, { closed: false, over: 7 }));
@@ -206,7 +206,6 @@ function build(themeName) {
     });
     g(`<g transform="rotate(${c.lean} ${l + c.w / 2} ${base})">${cg.join('\n')}</g>`);
   });
-  g('</g>');
 
   // (b) what's in front of the crayons: right wall, then front wall (both opaque)
   const front = [fTL, fTR, fBR, fBL];
@@ -221,7 +220,7 @@ function build(themeName) {
 
   // PAST / YOU: hand-lettered, a gentle bounce rather than wonky
   const bubble = (process.env.LETTERS || 'bubble') === 'bubble';
-  const lw = bubble ? 30 : 17;
+  const lw = bubble ? 25 : 17;
   const L1 = bubble ? { x: 350, step: 111, y: 988, w: 68, h: 90 } : { x: 345, step: 106, y: 978, w: 72, h: 104 };
   const L2 = bubble ? { x: 398, step: 120, y: 1140, w: 74, h: 90 } : { x: 398, step: 116, y: 1130, w: 82, h: 104 };
   [['P', K.red], ['A', K.orange], ['S', K.green], ['T', K.blue]]
@@ -231,10 +230,10 @@ function build(themeName) {
 
   // handwritten notes: each letter gets its own little tilt and bounce
   const notes = [
-    { text: 'genes', x: 88, y: 612, rot: -8, arrow: [[214, 626], [262, 640], [316, 690]] },
-    { text: 'childhood', x: 62, y: 830, rot: -5, arrow: [[214, 780], [276, 744], [330, 758]] },
-    { text: 'stress', x: 868, y: 548, rot: 6, arrow: [[860, 566], [770, 566], [682, 604]] },
-    { text: 'hormones', x: 838, y: 772, rot: 3, arrow: [[876, 718], [826, 688], [774, 712]] },
+    { text: 'genes', x: 88, y: 612, rot: -8, arrow: [[214, 626], [282, 640], [350, 688]] },
+    { text: 'childhood', x: 62, y: 830, rot: -5, arrow: [[214, 780], [290, 744], [360, 756]] },
+    { text: 'stress', x: 868, y: 548, rot: 6, arrow: [[860, 566], [764, 566], [676, 604]] },
+    { text: 'hormones', x: 838, y: 772, rot: 3, arrow: [[876, 718], [818, 688], [756, 712]] },
   ];
   notes.forEach(n => {
     const rots = [...n.text].map(() => f(jit(9))).join(' ');
