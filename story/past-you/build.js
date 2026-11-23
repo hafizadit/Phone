@@ -102,13 +102,14 @@ function build(themeName) {
   // ---------- wobbly capitals (unit box) ----------
   const arc = (cx, cy, rx, ry, a0, a1, n = 12) => Array.from({ length: n + 1 }, (_, i) => { const a = (a0 + (a1 - a0) * i / n) * Math.PI / 180; return [cx + rx * Math.cos(a), cy + ry * Math.sin(a)]; });
   const GLYPHS = {
-    P: [[[0.02, 1.04], [0, 0]], [[-0.02, 0.02], [0.4, 0], ...arc(0.42, 0.29, 0.44, 0.29, -90, 95), [0.03, 0.6]]],
-    A: [[[0, 1], [0.48, -0.02], [1, 1.03]], [[0.18, 0.64], [0.86, 0.6]]],
-    S: [[[0.95, 0.16], [0.64, -0.02], [0.22, 0.03], [0.02, 0.22], [0.2, 0.44], [0.74, 0.55], [0.98, 0.78], [0.8, 0.98], [0.38, 1.03], [0.02, 0.85]]],
-    T: [[[-0.1, 0.04], [1.08, -0.03]], [[0.46, 0], [0.52, 1.05]]],
-    Y: [[[0, 0], [0.5, 0.52]], [[1.02, -0.04], [0.5, 0.52], [0.47, 1.04]]],
-    O: [[...arc(0.5, 0.5, 0.52, 0.53, -110, 262, 18)]],
-    U: [[[0, -0.02], [0.02, 0.56], ...arc(0.5, 0.56, 0.49, 0.46, 180, 0, 10), [1.02, -0.05]]],
+    // chunky block capitals: straight sides, small chamfered corners
+    P: [[[0.01, 1.02], [0, 0]], [[0, 0.01], [0.74, 0], [0.92, 0.13], [0.93, 0.41], [0.75, 0.55], [0.02, 0.56]]],
+    A: [[[0, 1.02], [0.36, 0], [0.66, 0.01], [1, 1.02]], [[0.2, 0.62], [0.82, 0.61]]],
+    S: [[[0.96, 0.03], [0.16, 0.02], [0.03, 0.13], [0.03, 0.4], [0.15, 0.5], [0.86, 0.5], [0.97, 0.61], [0.96, 0.88], [0.84, 0.99], [0.03, 1]]],
+    T: [[[-0.06, 0.02], [1.06, 0]], [[0.49, 0.01], [0.51, 1.03]]],
+    Y: [[[0, 0], [0.5, 0.5]], [[1.01, -0.01], [0.5, 0.5], [0.5, 1.03]]],
+    O: [[[0.15, 0], [0.85, 0.01], [1, 0.15], [0.99, 0.86], [0.85, 1], [0.15, 0.99], [0, 0.85], [0.01, 0.15], [0.15, 0]]],
+    U: [[[0, -0.01], [0.01, 0.82], [0.17, 1], [0.84, 0.99], [1, 0.82], [1.01, 0]]],
   };
   // back-and-forth hatch path covering a circle of radius R around (cx, cy)
   function hatch(cx, cy, R, gap, angle) {
@@ -126,19 +127,20 @@ function build(themeName) {
   // LETTERS=sticker : bold crayon stroke, white rim, thin dark crayon edge (closer to the first version)
   function letter(ch, x, y, w, h, color, sw) {
     const style = process.env.LETTERS || 'bubble';
-    const rot = jit(4), s = 0.96 + rnd() * 0.08;
+    const rot = jit(3), s = 0.96 + rnd() * 0.08;
     const cx = x + w / 2, cy = y + h / 2;
     const polys = GLYPHS[ch].map(poly => poly.map(([u, v]) => [x + u * w, y + v * h]));
     // one hand path per stroke, reused by every layer so the layers line up like one drawn letter
-    const paths = polys.map(p => handPath(p, { amt: 2, over: 3 }));
-    const layer = (stroke, width, filter, op = 1) => paths.map(d => `<path d="${d}" fill="none" stroke="${stroke}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round" opacity="${op}"${filter ? ` filter="url(#${filter})"` : ''}/>`).join('');
+    const paths = polys.map(p => handPath(p, { amt: 1.6, over: 0 }));
+    const cap = style === 'bubble' ? 'stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="3"' : 'stroke-linecap="round" stroke-linejoin="round"';
+    const layer = (stroke, width, filter, op = 1) => paths.map(d => `<path d="${d}" fill="none" stroke="${stroke}" stroke-width="${width}" ${cap} opacity="${op}"${filter ? ` filter="url(#${filter})"` : ''}/>`).join('');
     let body = '';
     if (style === 'bubble') {
       const W = sw;
       const id = `${themeName}-m${maskN++}`;
       body += layer(T.line, W + 11, 'crayon');                    // outer crayon edge
       body += layer(T.bg, W, null);                               // hollow it out
-      body += `<mask id="${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="1080" height="1920">${paths.map(d => `<path d="${d}" fill="none" stroke="#fff" stroke-width="${W + 3}" stroke-linecap="round" stroke-linejoin="round"/>`).join('')}</mask>`;
+      body += `<mask id="${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="1080" height="1920">${paths.map(d => `<path d="${d}" fill="none" stroke="#fff" stroke-width="${W + 3}" ${cap}/>`).join('')}</mask>`;
       body += `<g mask="url(#${id})"><path d="${hatch(cx, cy, Math.max(w, h) * 0.85, 8, -0.9 + jit(0.3))}" fill="none" stroke="${color}" stroke-width="9" stroke-linejoin="round" opacity=".95" filter="url(#wax)"/>`
             + `<path d="${hatch(cx, cy, Math.max(w, h) * 0.85, 13, 0.5 + jit(0.3))}" fill="none" stroke="${color}" stroke-width="7" stroke-linejoin="round" opacity=".55" filter="url(#wax)"/></g>`;
       // a little shine mark, the way kids draw bubble letters
@@ -169,8 +171,9 @@ function build(themeName) {
   const topFace = [fTL, fTR, bTR, bTL];
   const side = [fTR, bTR, bBR, fBR];
 
-  g(colorIn(topFace, T.inside, { gap: 10, w: 10, angle: 0.2, spill: 4 }));
-  g(colorIn(side, T.side, { gap: 15, w: 8, angle: 1.25, op: 0.85, spill: 8, sparse: 0.15 }));
+  // (a) what's behind the crayons: the dark inside and the back + left rims
+  g(colorIn(topFace, T.inside, { gap: 10, w: 10, angle: 0.2, spill: 0 }));
+  g(outline([fTL, bTL, bTR], T.line, 7, { closed: false, over: 6 }));
 
   // crayons: uneven widths, heights and lean
   const crayons = [
@@ -181,12 +184,18 @@ function build(themeName) {
     { x: 684, top: 668, w: 60, lean: 7, color: K.yellow },
   ];
   const base = 905;
+  // crayons can only show above the opening, never outside the box walls
+  const crayonClip = `${themeName}-crayons`;
+  // hidden only below/left of the left rim segment (fTL -> bTL); free above the rim
+  const dx = bTL[0] - fTL[0], dy = bTL[1] - fTL[1];
+  const P1 = [fTL[0] - dx * 3, fTL[1] - dy * 3];
+  g(`<clipPath id="${crayonClip}"><path d="M${f(P1[0])},${f(P1[1])} L${f(fTL[0])},${f(fTL[1])} L${f(bTL[0])},${f(bTL[1])} L${f(bTL[0] - 2400)},-1000 L3000,-1000 L3000,3000 L${f(P1[0])},3000 Z"/></clipPath><g clip-path="url(#${crayonClip})">`);
   crayons.forEach((c) => {
     const l = c.x, r = c.x + c.w, t = c.top, tipH = 50 + rnd() * 16, mid = l + c.w / 2 + jit(5);
     const bodyPoly = [[l, base + 40], [l + jit(2), t], [r + jit(2), t], [r, base + 40]];
     const tipPoly = [[l + 8, t + 2], [mid, t - tipH], [r - 8, t + 2]];
     const cg = [];
-    cg.push(colorIn(bodyPoly, c.color, { gap: 10, w: 10, angle: 1.3 + jit(0.25), spill: 9 }));
+    cg.push(colorIn(bodyPoly, c.color, { gap: 10, w: 10, angle: 1.3 + jit(0.25), spill: 9, sparse: 0 }));
     cg.push(colorIn(tipPoly, c.color, { gap: 8, w: 8, angle: 0.3 + jit(0.3), spill: 6 }));
     cg.push(outline([[l, base + 20], [l, t], [r, t], [r, base + 20]], T.line, 6.5, { closed: false, over: 7 }));
     cg.push(outline([[l + 7, t], [mid, t - tipH], [r - 7, t]], T.line, 6.5, { closed: false, over: 3 }));
@@ -197,20 +206,24 @@ function build(themeName) {
     });
     g(`<g transform="rotate(${c.lean} ${l + c.w / 2} ${base})">${cg.join('\n')}</g>`);
   });
+  g('</g>');
 
-  // front face: background fill hides crayon bottoms, then a loose outline
+  // (b) what's in front of the crayons: right wall, then front wall (both opaque)
   const front = [fTL, fTR, fBR, fBL];
-  g(`<path d="${handPath(front, { amt: 2, over: 0 })}Z" fill="${T.bg}"/>`);
-  g(outline(front, T.line, 8));
-  g(outline([fTR, bTR, bTL, fTL], T.line, 7, { closed: false }));
-  g(outline([bTR, bBR, fBR], T.line, 7, { closed: false }));
+  g(`<path d="M${side.map(p => p.join(',')).join(' L')} Z" fill="${T.bg}"/>`);
+  g(colorIn(side, T.side, { gap: 15, w: 8, angle: 1.25, op: 0.85, spill: 0, sparse: 0.15 }));
+  g(outline([fTR, bTR, bBR, fBR], T.line, 7, { closed: false, over: 6 }));
+  g(`<path d="M${front.map(p => p.join(',')).join(' L')} Z" fill="${T.bg}"/>`);
+  g(outline(front, T.line, 8, { over: 8 }));
+  // a soft shadow line just under the front lip, where crayons go down into the box
+  g(line([[fTL[0] + 16, fTL[1] + 14], [fTR[0] - 14, fTR[1] + 14]], T.line, 3, { amt: 1.5, over: 0, retrace: 0, op: 0.25 }));
   g(line([J(fBR, 4), J([fBR[0] + 10, fBR[1] + 3], 2)], T.line, 5)); // a little slip of the hand
 
   // PAST / YOU: hand-lettered, a gentle bounce rather than wonky
   const bubble = (process.env.LETTERS || 'bubble') === 'bubble';
   const lw = bubble ? 30 : 17;
-  const L1 = bubble ? { x: 352, step: 110, y: 985, w: 66, h: 92 } : { x: 345, step: 106, y: 978, w: 72, h: 104 };
-  const L2 = bubble ? { x: 405, step: 116, y: 1138, w: 76, h: 92 } : { x: 398, step: 116, y: 1130, w: 82, h: 104 };
+  const L1 = bubble ? { x: 350, step: 111, y: 988, w: 68, h: 90 } : { x: 345, step: 106, y: 978, w: 72, h: 104 };
+  const L2 = bubble ? { x: 398, step: 120, y: 1140, w: 74, h: 90 } : { x: 398, step: 116, y: 1130, w: 82, h: 104 };
   [['P', K.red], ['A', K.orange], ['S', K.green], ['T', K.blue]]
     .forEach(([ch, c], i) => g(letter(ch, L1.x + i * L1.step + jit(4), L1.y + (i % 2 ? 6 : -4) + jit(3), L1.w + jit(4), L1.h + jit(4), c, lw)));
   [['Y', K.yellow], ['O', K.pink], ['U', K.purple]]

@@ -11,7 +11,7 @@ One Instagram story, 1080 × 1920 (9:16). Final image: `story.png`.
 - All themes: `node build.js --all && node render.js --all` → `variants/*.png` +
   `variants/_sheet.png` (side-by-side comparison)
 - Themes (in `THEMES` in build.js): paper (chosen), tomato, forest, butter, night, blush
-- Lettering: bubble letters by default; `LETTERS=sticker node build.js` gives the
+- Lettering: chunky block bubble letters by default; `LETTERS=sticker node build.js` gives the
   bold-stroke-with-white-rim style closer to the first version
 
 Visual references: the "Trigger Box" post (flat periwinkle background, pale lime
