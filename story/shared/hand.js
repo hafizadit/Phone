@@ -103,6 +103,15 @@ const defs = (T) => `
         <feColorMatrix in="mix" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  2.3 0 0 0 -0.72" result="mask"/>
         <feComposite in="wob" in2="mask" operator="in"/>
       </filter>
+      <filter id="scrawl" filterUnits="userSpaceOnUse" x="-300" y="-300" width="1700" height="2500">
+        <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="23" result="warp"/>
+        <feDisplacementMap in="SourceGraphic" in2="warp" scale="4.2" xChannelSelector="R" yChannelSelector="G" result="wob"/>
+        <feTurbulence type="fractalNoise" baseFrequency="0.6 1.2" numOctaves="2" seed="29" result="grain"/>
+        <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="1" seed="31" result="press"/>
+        <feComposite in="grain" in2="press" operator="arithmetic" k2="1" k3="0.9" result="mix"/>
+        <feColorMatrix in="mix" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  2.4 0 0 0 -0.45" result="mask"/>
+        <feComposite in="wob" in2="mask" operator="in"/>
+      </filter>
       <filter id="ink" filterUnits="userSpaceOnUse" x="-300" y="-300" width="1700" height="2500">
         <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="17" result="warp"/>
         <feDisplacementMap in="SourceGraphic" in2="warp" scale="1.6" xChannelSelector="R" yChannelSelector="G"/>

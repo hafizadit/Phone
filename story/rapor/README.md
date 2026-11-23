@@ -5,9 +5,12 @@ Final image: `story.png`. Rebuild: `node build.js && node render.js`.
 
 Visual: a primary-school report card ("rapor") whose teacher's note says
 "Kurang rajin. Sering melamun di kelas.", with sticky notes adding what it left out.
-Everything in the drawing is crayon, like past-you: hand-lettered text, freehand
-table, page and notes coloured in with crayon hatching over a solid base (so
-nothing behind them shows through), no flat digital fills or drop shadows.
+Everything in the drawing is crayon, like past-you: hand-lettered text (each letter
+with its own size, tilt, height and spacing, gone over twice), freehand table,
+outlines drawn twice with overshooting corners, page and notes coloured in with
+crayon hatching that spills past the edges, over a solid base (so nothing behind
+them shows through). No flat digital fills or drop shadows. Small words get a
+little less wobble so they stay readable.
 The hand-drawn toolkit and filters are shared: `../shared/hand.js`.
 
 ## Content and accuracy
