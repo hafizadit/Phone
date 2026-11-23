@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Free Will Story</title>
+<style>
+  @font-face { font-family: "Instrument Serif"; font-style: normal; font-weight: 400; src: url(fonts/InstrumentSerif-Regular.woff2) format("woff2"); }
+  @font-face { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; src: url(fonts/InstrumentSerif-Italic.woff2) format("woff2"); }
+  @font-face { font-family: "JetBrains Mono"; font-weight: 100 800; src: url(fonts/JetBrainsMono-var.woff2) format("woff2"); }
+  @font-face { font-family: "Archivo"; font-weight: 100 900; src: url(fonts/Archivo-var.woff2) format("woff2"); }
+
+  :root {
+    --ink: #12110f;
+    --ink-2: #1c1a17;
+    --line: #34302a;
+    --paper: #efe8d8;
+    --muted: #8f877a;
+    --signal: #ff5b23;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #000; }
+
+  .story {
+    position: relative;
+    width: 1080px; height: 1920px;
+    overflow: hidden;
+    background:
+      radial-gradient(900px 700px at 85% 8%, rgba(255, 91, 35, .10), transparent 70%),
+      radial-gradient(800px 900px at 0% 100%, rgba(239, 232, 216, .05), transparent 70%),
+      var(--ink);
+    color: var(--paper);
+    font-family: "Archivo", sans-serif;
+  }
+  .grain { position: absolute; inset: 0; opacity: .16; mix-blend-mode: overlay; pointer-events: none; }
+
+  .mono { font-family: "JetBrains Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+
+  /* ---------- header ---------- */
+  .kicker {
+    position: absolute; left: 90px; right: 90px; top: 232px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 22px; font-weight: 700; color: var(--paper);
+  }
+  .kicker .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: var(--signal); margin-right: 14px; vertical-align: 1px; }
+  .kicker .right { color: var(--muted); font-weight: 500; }
+
+  h1 {
+    position: absolute; left: 84px; top: 286px;
+    font-family: "Instrument Serif", serif; font-weight: 400;
+    font-size: 156px; line-height: .9; letter-spacing: -.02em;
+  }
+  h1 em { color: var(--signal); }
+
+  .sub {
+    position: absolute; left: 90px; top: 738px; width: 880px;
+    font-size: 33px; line-height: 1.3; font-weight: 400; color: #cfc7b6;
+  }
+  .sub b { color: var(--paper); font-weight: 700; }
+
+  /* ---------- causal chain ---------- */
+  .chain { position: absolute; left: 90px; right: 90px; top: 850px; }
+  .row {
+    position: relative; height: 54px;
+    display: grid; grid-template-columns: 96px 236px 1fr; align-items: center;
+    border-top: 1px solid var(--line);
+  }
+  .domino { position: relative; width: 96px; height: 54px; }
+  .domino i {
+    position: absolute; left: 8px; bottom: 7px;
+    width: 20px; height: 42px; border-radius: 4px;
+    border: 2.5px solid var(--paper);
+    transform-origin: 100% 100%;
+    transform: rotate(var(--t));
+    opacity: var(--o, 1);
+  }
+  .domino i::after { content: ""; position: absolute; left: 3px; right: 3px; top: 50%; height: 2px; margin-top: -1px; background: currentColor; opacity: .7; }
+  .when { font-size: 20px; font-weight: 500; color: var(--muted); }
+  .what { font-size: 29px; font-weight: 500; color: var(--paper); }
+
+  .row.you { height: 92px; border-top: 1px solid var(--signal); border-bottom: 1px solid var(--signal); }
+  .row.you .domino i { width: 26px; height: 54px; left: 8px; bottom: 19px; border-color: var(--signal); background: var(--signal); }
+  .row.you .domino i::after { background: var(--ink); opacity: 1; }
+  .row.you .when { color: var(--signal); font-weight: 700; }
+  .row.you .what { font-family: "Instrument Serif", serif; font-style: italic; font-size: 56px; color: var(--signal); }
+
+  /* ---------- conundrum ---------- */
+  .label-c {
+    position: absolute; left: 90px; top: 1404px;
+    font-size: 20px; font-weight: 700; color: var(--muted);
+  }
+  .cards { position: absolute; left: 90px; right: 90px; top: 1442px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .card { padding: 22px 24px 24px; border-radius: 18px; background: var(--ink-2); border: 1px solid var(--line); }
+  .card.yes { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+  .card .who { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--muted); }
+  .card.yes .who { color: #6b6458; }
+  .card p { font-size: 26px; line-height: 1.22; font-weight: 500; }
+  .card p strong { font-weight: 800; }
+
+  .question {
+    position: absolute; left: 88px; right: 90px; top: 1662px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: "Instrument Serif", serif; font-size: 66px; line-height: 1;
+  }
+  .question .reply {
+    font-family: "JetBrains Mono", monospace; font-size: 20px; font-weight: 700; letter-spacing: .08em;
+    color: var(--ink); background: var(--signal); padding: 14px 20px; border-radius: 999px;
+  }
+  .question em { color: var(--signal); }
+
+  .source {
+    position: absolute; left: 90px; right: 90px; top: 1756px;
+    font-size: 16px; font-weight: 500; color: var(--muted); letter-spacing: .06em;
+  }
+</style>
+</head>
+<body>
+<div class="story">
+  <svg class="grain" width="1080" height="1920" aria-hidden="true">
+    <filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0"/></filter>
+    <rect width="100%" height="100%" filter="url(#n)"/>
+  </svg>
+
+  <div class="kicker mono"><span><span class="dot"></span>The free will conundrum</span><span class="right">Sapolsky · 2023</span></div>
+
+  <h1>Did you<br><em>choose</em> to<br>read this?</h1>
+
+  <p class="sub">Neuroscientist <b>Robert Sapolsky</b> says no. Every “choice” is the last domino in a chain you never controlled:</p>
+
+  <div class="chain">
+    <div class="row"><span class="domino"><i style="--t:78deg;--o:.35"></i></span><span class="when mono">Millions of yrs</span><span class="what">Evolution built your species’ brain</span></div>
+    <div class="row"><span class="domino"><i style="--t:76deg;--o:.42"></i></span><span class="when mono">Centuries</span><span class="what">Culture shaped your values</span></div>
+    <div class="row"><span class="domino"><i style="--t:73deg;--o:.5"></i></span><span class="when mono">Before birth</span><span class="what">Genes + the womb set the wiring</span></div>
+    <div class="row"><span class="domino"><i style="--t:68deg;--o:.6"></i></span><span class="when mono">Childhood</span><span class="what">Shaped your self-control</span></div>
+    <div class="row"><span class="domino"><i style="--t:60deg;--o:.7"></i></span><span class="when mono">Months ago</span><span class="what">Experience rewired your neurons</span></div>
+    <div class="row"><span class="domino"><i style="--t:47deg;--o:.8"></i></span><span class="when mono">Hours ago</span><span class="what">Hormones tuned your mood</span></div>
+    <div class="row"><span class="domino"><i style="--t:30deg;--o:.9"></i></span><span class="when mono">Seconds ago</span><span class="what">Your senses caught a cue</span></div>
+    <div class="row"><span class="domino"><i style="--t:13deg"></i></span><span class="when mono">1 second ago</span><span class="what">Neurons fired</span></div>
+    <div class="row you"><span class="domino"><i style="--t:0deg"></i></span><span class="when mono">Now</span><span class="what">“I decided.”</span></div>
+  </div>
+
+  <div class="label-c mono">So who deserves the credit — or the blame?</div>
+  <div class="cards">
+    <div class="card">
+      <div class="who mono">Sapolsky</div>
+      <p><strong>No one, really.</strong> Not the criminal, not the genius. It’s causes all the way down.</p>
+    </div>
+    <div class="card yes">
+      <div class="who mono">His critics</div>
+      <p><strong>Caused isn’t coerced.</strong> Acting on your own reasons is free enough.</p>
+    </div>
+  </div>
+
+  <div class="question"><span>Was it <em>your</em> choice?</span><span class="reply">REPLY ↓</span></div>
+
+  <div class="source mono">After R. M. Sapolsky, “Determined: A Science of Life Without Free Will”</div>
+</div>
+</body>
+</html>
