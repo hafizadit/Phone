@@ -270,10 +270,11 @@ function build(themeName) {
   .story { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: ${T.bg}; color: ${T.text};
            font-family: "DM Sans", sans-serif; font-weight: 700; letter-spacing: -0.045em; text-align: center; }
   .story svg { position: absolute; inset: 0; }
-  .line { position: absolute; left: 0; right: 0; font-size: 58px; line-height: 1.04; }
-  .top { top: 300px; }
-  .bottom { top: 1460px; }
-  .label { position: absolute; left: 0; right: 0; top: 1680px; font-size: 30px; letter-spacing: -0.04em; text-transform: uppercase; }
+  /* composition: one centred column, ~112px side margins, even gaps */
+  .line { position: absolute; left: 0; right: 0; }
+  .top { top: 326px; font-size: 64px; line-height: 1.04; }                 /* the hook: largest */
+  .bottom { top: 1410px; font-size: 50px; line-height: 1.1; }             /* the explanation */
+  .label { position: absolute; left: 0; right: 0; top: 1618px; font-size: 28px; letter-spacing: -0.04em; text-transform: uppercase; }
 </style>
 </head>
 <body>
@@ -313,11 +314,13 @@ function build(themeName) {
         <feMerge><feMergeNode in="blotSoft"/><feMergeNode in="darkSpecks"/></feMerge>
       </filter>
     </defs>
+    <g transform="translate(540 934) scale(0.88) translate(-540 -934)">
     <g transform="rotate(-5 545 940)">
 ${out.join('\n')}
     </g>
+    </g>
   </svg>
-  <div class="line bottom">Past you could only draw<br>with the crayons they were given.</div>
+  <div class="line bottom">Past you could only draw with<br>the crayons they were given.</div>
   <div class="label">After Robert Sapolsky, Determined</div>
   <svg width="1080" height="1920" style="pointer-events:none" aria-hidden="true"><rect width="1080" height="1920" filter="url(#paper)"/></svg>
 </div>
