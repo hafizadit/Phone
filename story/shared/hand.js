@@ -125,6 +125,41 @@ function createHand(seed = 1, idPrefix = 'h') {
   return { rnd, jit, f, resample, handPath, pathEl, line, outline, colorIn, scribbleFill, blob };
 }
 
+// Writing and line kit shared by the series (same as story/rapor):
+//   write()  hand-lettered crayon text, each letter with its own size/tilt/height/spacing,
+//            gone over twice; small words keep more control so they stay readable
+//   rule()   a loose freehand line; rough() an outline drawn twice with overshooting corners
+function createKit(H, T) {
+  const { rnd, jit, f, line, outline } = H;
+  const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const J = (p, a = 8) => [p[0] + jit(a), p[1] + jit(a)];
+  const shadeOf = (hex, k) => '#' + [1, 3, 5].map(i => Math.round(parseInt(hex.slice(i, i + 2), 16) * (1 - k)).toString(16).padStart(2, '0')).join('');
+  const tint = (hex, k) => '#' + [1, 3, 5].map(i => Math.round(parseInt(hex.slice(i, i + 2), 16) * (1 - k) + 255 * k).toString(16).padStart(2, '0')).join('');
+  const write = (x, y, s, { size = 40, fill = T.line, anchor = 'start', rot = 0, wob } = {}) => {
+    const small = size < 42;
+    wob = wob ?? (small ? 6 : 10);
+    let prev = 0;
+    const spans = [...s].map((c, i) => {
+      const h = jit(size * 0.09), dy = h - prev; prev = h;
+      return `<tspan font-size="${f(size * (small ? 0.92 + rnd() * 0.16 : 0.86 + rnd() * 0.28))}" dx="${f(i ? size * (rnd() * (small ? 0.045 : 0.07) + (small ? 0.018 : -0.005)) : 0)}" dy="${f(small ? dy * 0.6 : dy)}" rotate="${f(jit(wob))}">${esc(c)}</tspan>`;
+    }).join('');
+    const pass = (ox, oy, op, filter) => `<text x="${f(x + ox)}" y="${f(y + oy)}" font-family="Gochi Hand" fill="${fill}" stroke="${fill}" stroke-width="${f(size * (small ? 0.012 : 0.022))}" stroke-linejoin="round" text-anchor="${anchor}" opacity="${op}" filter="url(#${filter})">${spans}</text>`;
+    const body = pass(0, 0, 1, small ? 'crayon' : 'scrawl') + pass(jit(small ? 1.2 : 2.5), jit(small ? 1.2 : 2.5), small ? 0.3 : 0.45, 'crayon');
+    return rot ? `<g transform="rotate(${rot} ${f(x)} ${f(y)})">${body}</g>` : body;
+  };
+  const rule = (pts, color = T.line, w = 3.8) => line(pts, color, w, { amt: 4, over: 14, retrace: 0.65, op: 0.85 });
+  const rough = (poly, color, w, { closed = true } = {}) => outline(poly, color, w, { closed, amt: 4.5, over: 16, retrace: 0.7 })
+    + outline(poly.map(p => J(p, 5)), color, w * 0.55, { closed, amt: 4.5, over: 10, retrace: 0 });
+  const arrow = (pts, color = T.line, w = 4.5) => {
+    const e = pts[pts.length - 1], p = pts[pts.length - 2], ang = Math.atan2(e[1] - p[1], e[0] - p[0]);
+    const head = (da, len) => [e[0] - len * Math.cos(ang + da), e[1] - len * Math.sin(ang + da)];
+    return line(pts, color, w, { amt: 2.5, over: 4, retrace: 0.3 })
+      + line([head(0.45 + jit(0.15), 20 + jit(5)), e], color, w, { amt: 1, over: 3, retrace: 0 })
+      + line([head(-0.5 + jit(0.15), 18 + jit(5)), e], color, w, { amt: 1, over: 3, retrace: 0 });
+  };
+  return { esc, J, shadeOf, tint, write, rule, rough, arrow };
+}
+
 // SVG filter definitions; theme needs grainDark / grainLight (paper texture strength)
 const defs = (T) => `
       <filter id="crayon" filterUnits="userSpaceOnUse" x="-300" y="-300" width="1700" height="2500">
@@ -169,4 +204,4 @@ const defs = (T) => `
         <feMerge><feMergeNode in="blotSoft"/><feMergeNode in="darkSpecks"/></feMerge>
       </filter>`;
 
-module.exports = { createHand, defs };
+module.exports = { createHand, createKit, defs };
